@@ -1,0 +1,139 @@
+<template>
+    <div class="documents-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Entity Document Repository</h1>
+                <p class="page-subtitle">Upload and manage statutory compliance, governance, and grant financial records.</p>
+            </div>
+            <button class="btn-primary" onclick={handleOpenUploadModal}>
+                <lightning-icon icon-name="utility:upload" size="x-small" class="btn-icon"></lightning-icon>
+                Upload New Document
+            </button>
+        </div>
+
+        <!-- Search & Filter Card -->
+        <div class="filter-card">
+            <div class="search-box">
+                <lightning-icon icon-name="utility:search" size="x-small" class="search-icon"></lightning-icon>
+                <input 
+                    type="text" 
+                    placeholder="Search documents by name or keyword..." 
+                    class="search-input" 
+                    oninput={handleSearchChange} />
+            </div>
+            <div class="filters-row">
+                <select class="filter-select" onchange={handleCategoryFilter}>
+                    <option value="">All Document Categories</option>
+                    <option value="Governance & Compliance">Governance & Compliance</option>
+                    <option value="Financial Statements">Financial Statements</option>
+                    <option value="Grant Acquittals">Grant Acquittals</option>
+                    <option value="Tax & Legal">Tax & Legal</option>
+                </select>
+                <select class="filter-select" onchange={handleStatusFilter}>
+                    <option value="">All Review Statuses</option>
+                    <option value="Verified">Verified</option>
+                    <option value="Pending Review">Pending Review</option>
+                    <option value="Requires Revision">Requires Revision</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Document Table Card -->
+        <div class="table-card">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Document Title</th>
+                        <th>Category</th>
+                        <th>File Size</th>
+                        <th>Upload Date</th>
+                        <th>Verification Status</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={filteredDocuments} for:item="doc">
+                        <tr key={doc.id}>
+                            <td>
+                                <div class="doc-title-wrapper">
+                                    <lightning-icon icon-name="utility:file" size="small" class="doc-icon"></lightning-icon>
+                                    <div>
+                                        <div class="doc-name">{doc.name}</div>
+                                        <div class="doc-filename">{doc.fileName}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{doc.category}</td>
+                            <td>{doc.size}</td>
+                            <td>{doc.uploadDate}</td>
+                            <td>
+                                <span class={doc.statusClass}>{doc.status}</span>
+                            </td>
+                            <td class="text-right">
+                                <button class="btn-action" data-id={doc.id} onclick={handleDownloadDoc} title="Download File">
+                                    <lightning-icon icon-name="utility:download" size="x-small"></lightning-icon>
+                                </button>
+                                <button class="btn-action danger" data-id={doc.id} onclick={handleDeleteDoc} title="Delete File">
+                                    <lightning-icon icon-name="utility:delete" size="x-small"></lightning-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+
+            <div class="table-footer">
+                <span>Showing {displayedCount} of {totalCount} documents</span>
+            </div>
+        </div>
+
+        <!-- Upload Document Modal -->
+        <template if:true={isUploadModalOpen}>
+            <div class="modal-backdrop">
+                <div class="modal-container">
+                    <div class="modal-header">
+                        <h2>Upload Compliance Document</h2>
+                        <button class="close-btn" onclick={handleCloseUploadModal}>&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-grid">
+                            <div class="field-group full-width">
+                                <label class="field-label">Document Title / Description *</label>
+                                <input type="text" class="form-input" placeholder="e.g. 2026 Tax Clearance Pin Certificate" data-field="name" value={newDoc.name} onchange={handleInputChange} />
+                            </div>
+
+                            <div class="field-group full-width">
+                                <label class="field-label">Category *</label>
+                                <select class="form-input" data-field="category" onchange={handleInputChange}>
+                                    <option value="Governance & Compliance">Governance & Compliance</option>
+                                    <option value="Financial Statements">Financial Statements</option>
+                                    <option value="Grant Acquittals">Grant Acquittals</option>
+                                    <option value="Tax & Legal">Tax & Legal</option>
+                                </select>
+                            </div>
+
+                            <div class="field-group full-width">
+                                <label class="field-label">Select File *</label>
+                                <div class="file-dropzone">
+                                    <lightning-icon icon-name="utility:upload" size="medium"></lightning-icon>
+                                    <p class="dropzone-text">Click to choose or drag file into this area</p>
+                                    <input type="file" class="file-input" onchange={handleFileSelected} />
+                                </div>
+                                <template if:true={selectedFileName}>
+                                    <div class="selected-file-info">Selected File: <strong>{selectedFileName}</strong></div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn-secondary" onclick={handleCloseUploadModal}>Cancel</button>
+                        <button class="btn-primary" onclick={handleSaveDocument}>Upload & Submit</button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

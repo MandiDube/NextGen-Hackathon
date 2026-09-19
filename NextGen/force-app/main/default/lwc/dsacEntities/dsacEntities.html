@@ -1,0 +1,254 @@
+<template>
+    <!-- LIST VIEW -->
+    <template if:true={isListView}>
+        <header class="header">
+            <div>
+                <h2 class="page-title">Entities</h2>
+                <p class="page-subtitle">Manage registered reporting entities</p>
+            </div>
+            <div class="header-actions">
+                <div class="search-box">
+                    <lightning-icon icon-name="utility:search" size="x-small" class="search-icon"></lightning-icon>
+                    <input type="text" placeholder="Search..." class="search-input" />
+                </div>
+                <button class="icon-btn">
+                    <lightning-icon icon-name="utility:notification" size="small"></lightning-icon>
+                    <span class="notification-badge"></span>
+                </button>
+                <button class="primary-btn">+ Add Entity</button>
+            </div>
+        </header>
+
+        <div class="filter-bar">
+            <div class="tab-group">
+                <button class="tab-btn active">All (342)</button>
+                <button class="tab-btn">Public Entities (112)</button>
+                <button class="tab-btn">NPOs (230)</button>
+            </div>
+            <div class="sort-group">
+                <span>Sort By:</span>
+                <select class="select-dropdown">
+                    <option>Recently Added</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="card">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>ENTITY NAME</th>
+                        <th>TYPE</th>
+                        <th>PROVINCE</th>
+                        <th>STATUS</th>
+                        <th>LAST REPORT</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={entitiesList} for:item="item">
+                        <tr key={item.id}>
+                            <td class="font-bold">{item.name}</td>
+                            <td class="text-muted">{item.type}</td>
+                            <td class="text-muted">{item.province}</td>
+                            <td><span class={item.statusClass}>{item.status}</span></td>
+                            <td class="text-muted">{item.lastReport}</td>
+                            <td>
+                                <button class="outline-btn" onclick={handleViewProfile} data-id={item.id}>View Profile</button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <span class="text-muted">Showing 1-8 of 342 entries</span>
+                <div class="pagination-controls">
+                    <button class="page-btn">Prev</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">Next</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- PROFILE DETAIL VIEW -->
+    <template if:true={isProfileView}>
+        <header class="header">
+            <div class="title-with-badge">
+                <a onclick={showListView} class="back-link">&larr; Entities</a>
+                <div class="entity-title-row">
+                    <h2 class="page-title">{selectedEntity.name}</h2>
+                    <span class="pill-badge">{selectedEntity.type}</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="primary-btn edit-btn" onclick={handleOpenEditModal}>
+                    <lightning-icon icon-name="utility:edit" size="x-small" class="btn-icon"></lightning-icon>
+                    Edit Entity
+                </button>
+            </div>
+        </header>
+
+        <div class="grid-profile">
+            <!-- Left Column -->
+            <div class="left-col">
+                <div class="card">
+                    <h3 class="card-title">Contact Information</h3>
+                    <div class="info-block">
+                        <span class="info-label">ADDRESS</span>
+                        <p class="info-value">{selectedEntity.address}</p>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">PHONE NUMBER</span>
+                        <p class="info-value">{selectedEntity.phone}</p>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">EMAIL ADDRESS</span>
+                        <p class="info-value link-text">{selectedEntity.email}</p>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">CONTACT PERSON</span>
+                        <p class="info-value">{selectedEntity.contactPerson}</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title">Reporting Compliance</h3>
+                    <div class="compliance-metric">
+                        <span class="metric-label">Overall Compliance Rate</span>
+                        <span class="metric-value-green">85%</span>
+                    </div>
+                    <div class="progress-bar-bg flex-bar">
+                        <div class="progress-bar-fill green-fill" style="width: 85%;"></div>
+                    </div>
+                    <div class="compliance-row">
+                        <span class="text-muted">On-Time Submissions</span>
+                        <span class="font-bold">12 / 14</span>
+                    </div>
+                    <div class="compliance-row">
+                        <span class="text-muted">Overdue Reports</span>
+                        <span class="font-bold text-red">2</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-col">
+                <div class="card">
+                    <h3 class="card-title">Submitted Reports</h3>
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>REPORT TITLE</th>
+                                <th>PERIOD</th>
+                                <th>SUBMITTED ON</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={submittedReports} for:item="rpt">
+                                <tr key={rpt.id}>
+                                    <td class="font-bold">{rpt.title}</td>
+                                    <td class="text-muted">{rpt.period}</td>
+                                    <td class="text-muted">{rpt.submittedOn}</td>
+                                    <td><span class={rpt.statusClass}>{rpt.status}</span></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid-2-col">
+                    <div class="card">
+                        <h3 class="card-title">Upcoming Deadlines</h3>
+                        <div class="deadline-list">
+                            <div class="deadline-item red">
+                                <div>
+                                    <div class="deadline-title">Q3 Financial Statement</div>
+                                    <div class="deadline-sub">Due: 15 Jan 2026</div>
+                                </div>
+                                <span class="badge-pill badge-urgent">Urgent</span>
+                            </div>
+                            <div class="deadline-item amber">
+                                <div>
+                                    <div class="deadline-title">B-BBEE Compliance Review</div>
+                                    <div class="deadline-sub">Due: 28 Feb 2026</div>
+                                </div>
+                                <span class="badge-pill badge-standard">Standard</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Documents</h3>
+                        <div class="doc-list">
+                            <div class="doc-item">
+                                <lightning-icon icon-name="utility:file" size="x-small" class="doc-icon"></lightning-icon>
+                                <span class="link-text">Constitution_SASC.pdf</span>
+                            </div>
+                            <div class="doc-item">
+                                <lightning-icon icon-name="utility:file" size="x-small" class="doc-icon"></lightning-icon>
+                                <span class="link-text">Strategic_Plan_2025.pdf</span>
+                            </div>
+                            <div class="doc-item">
+                                <lightning-icon icon-name="utility:file" size="x-small" class="doc-icon"></lightning-icon>
+                                <span class="link-text">Audit_Report_2024.pdf</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title">Activity History</h3>
+                    <ul class="activity-timeline">
+                        <li class="activity-item">
+                            <div class="dot"></div>
+                            <div class="activity-text">Thabo Mokoena uploaded Q2 Performance Summary</div>
+                            <div class="activity-date">15 Oct 2025</div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="dot"></div>
+                            <div class="activity-text">Report 'Q1 Financial Statement' was Approved by Admin</div>
+                            <div class="activity-date">18 Jul 2025</div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="dot"></div>
+                            <div class="activity-text">Entity information updated by SASC Administrator</div>
+                            <div class="activity-date">10 Jun 2025</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- EDIT ENTITY MODAL -->
+    <template if:true={isEditModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Edit Entity Details</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="form-grid">
+                        <lightning-input label="Entity Name" name="name" value={editFormData.name} onchange={handleInputChange}></lightning-input>
+                        <lightning-input label="Type" name="type" value={editFormData.type} onchange={handleInputChange}></lightning-input>
+                        <lightning-input label="Province" name="province" value={editFormData.province} onchange={handleInputChange}></lightning-input>
+                        <lightning-input label="Contact Person" name="contactPerson" value={editFormData.contactPerson} onchange={handleInputChange}></lightning-input>
+                        <lightning-input label="Phone Number" name="phone" value={editFormData.phone} onchange={handleInputChange}></lightning-input>
+                        <lightning-input label="Email Address" name="email" value={editFormData.email} onchange={handleInputChange}></lightning-input>
+                        <lightning-input label="Address" name="address" value={editFormData.address} class="full-width" onchange={handleInputChange}></lightning-input>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="outline-btn modal-btn" onclick={handleCloseEditModal}>Cancel</button>
+                    <button class="primary-btn modal-btn" onclick={handleSaveEntity}>Save Changes</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

@@ -1,0 +1,95 @@
+<template>
+    <header class="page-header">
+        <div>
+            <h1 class="page-title">Document Repository</h1>
+            <p class="page-subtitle">Central document management system</p>
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn" onclick={handleNotificationClick} title="Notifications">
+                <lightning-icon icon-name="utility:notification" size="small"></lightning-icon>
+            </button>
+
+        </div>
+    </header>
+
+    <div class="card search-filter-card">
+        <div class="search-box">
+            <lightning-icon icon-name="utility:search" size="x-small" class="search-icon"></lightning-icon>
+            <input 
+                type="text" 
+                placeholder="Search by document name or keywords..." 
+                class="search-input" 
+                oninput={handleSearchKeyChange} />
+        </div>
+        <div class="filters-row">
+            <select class="filter-select" onchange={handleFilterChange} data-filter="entity">
+                <option value="">Filter by Entity</option>
+                <option value="SA Rugby Union">SA Rugby Union</option>
+                <option value="Boxing SA">Boxing SA</option>
+                <option value="SA National Gallery">SA National Gallery</option>
+                <option value="Robben Island Museum">Robben Island Museum</option>
+            </select>
+            <select class="filter-select" onchange={handleFilterChange} data-filter="type">
+                <option value="">Filter by Doc Type</option>
+                <option value="Annual Report">Annual Report</option>
+                <option value="Financial Statement">Financial Statement</option>
+                <option value="Compliance Certificate">Compliance Certificate</option>
+                <option value="Policy Document">Policy Document</option>
+            </select>
+            <select class="filter-select" onchange={handleFilterChange} data-filter="date">
+                <option value="">Date Uploaded</option>
+                <option value="7days">Last 7 Days</option>
+                <option value="30days">Last 30 Days</option>
+                <option value="2024">2024 Submissions</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="card table-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>DOCUMENT NAME</th>
+                    <th>ENTITY</th>
+                    <th>TYPE</th>
+                    <th>UPLOADED</th>
+                    <th>BY</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={filteredDocuments} for:item="doc">
+                    <tr key={doc.id}>
+                        <td class="doc-name-cell">
+                            <lightning-icon icon-name="utility:file" size="x-small" class={doc.iconClass}></lightning-icon>
+                            <span>{doc.name}</span>
+                        </td>
+                        <td>{doc.entity}</td>
+                        <td>{doc.type}</td>
+                        <td>{doc.date}</td>
+                        <td>{doc.uploadedBy}</td>
+                        <td class="action-cell">
+                            <button class="action-icon-btn" data-id={doc.id} onclick={handleDownloadDoc} title="Download">
+                                <lightning-icon icon-name="utility:download" size="x-small"></lightning-icon>
+                            </button>
+                            <button class="action-icon-btn" data-id={doc.id} onclick={handlePreviewDoc} title="Preview">
+                                <lightning-icon icon-name="utility:preview" size="x-small"></lightning-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+
+        <div class="table-footer">
+            <span>Showing {displayedCount} of {totalCount} documents</span>
+            <div class="pagination">
+                <button class="page-btn">Previous</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">Next</button>
+            </div>
+        </div>
+    </div>
+</template>

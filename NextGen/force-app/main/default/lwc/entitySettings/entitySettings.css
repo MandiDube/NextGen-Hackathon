@@ -1,0 +1,138 @@
+:host {
+    --navy-bg: #1A224F;
+    --navy-btn: #1B224B;
+    --navy-hover: #131838;
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #F8FAFC;
+    padding: 32px;
+    min-height: 100%;
+}
+
+.settings-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.page-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0;
+}
+
+.page-subtitle {
+    font-size: 14px;
+    color: #64748B;
+    margin: 4px 0 0 0;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    padding: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.full-span {
+    grid-column: span 2;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.header-icon {
+    --slds-c-icon-color-foreground-default: var(--navy-btn);
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.three-col {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.field-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 6px;
+}
+
+.form-input {
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    background: #FAFBFC;
+    color: #0F172A;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.form-input:focus {
+    border-color: #2563EB;
+    outline: none;
+    background: #FFFFFF;
+}
+
+.btn-primary {
+    background-color: var(--navy-btn);
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary:hover {
+    background-color: var(--navy-hover);
+}
+
+.btn-icon {
+    --slds-c-icon-color-foreground-default: #FFFFFF;
+}

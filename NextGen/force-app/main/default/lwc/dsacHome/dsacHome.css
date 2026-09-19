@@ -1,0 +1,166 @@
+:host {
+    --navy-bg: #1A224F;
+    --navy-btn: #1B224B;
+    --navy-hover: #131838;
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #FFFFFF;
+}
+
+.branding-header {
+    display: flex;
+    height: 100px;
+    width: 100%;
+}
+
+.header-left {
+    background-color: var(--navy-bg);
+    color: #FFFFFF;
+    width: 45%;
+    padding: 16px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brand-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.brand-subtitle {
+    font-size: 10px;
+    margin: 4px 0 0 0;
+    line-height: 1.2;
+    opacity: 0.9;
+}
+
+.header-right {
+    background-color: #FFFFFF;
+    width: 55%;
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.coat-of-arms-stub {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.symbol-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #000;
+}
+
+.gov-text {
+    display: flex;
+    flex-direction: column;
+    color: #000;
+}
+
+.gov-title {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.gov-dept {
+    font-size: 9px;
+    margin-top: 2px;
+    line-height: 1.1;
+}
+
+.content-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 24px;
+}
+
+.portal-selection {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.portal-btn {
+    background-color: var(--navy-btn);
+    color: #FFFFFF;
+    border: none;
+    padding: 14px 48px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.portal-btn:hover {
+    background-color: var(--navy-hover);
+}
+
+.banner-container {
+    width: 80%;
+    max-width: 900px;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-top: 20px;
+}
+
+.heritage-badge {
+    border: 4px solid #D97706;
+    padding: 20px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.badge-title {
+    font-weight: 800;
+    color: #D97706;
+}
+
+.event-details {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.date-block {
+    display: flex;
+    flex-direction: column;
+    color: #D97706;
+    font-weight: 800;
+}
+
+.date-block .day { font-size: 36px; line-height: 1; }
+.date-block .month { font-size: 20px; }
+.date-block .time, .date-block .venue { font-size: 10px; color: #000; margin-top: 2px; }
+
+.theme-block h2 { font-size: 28px; margin: 0; font-family: cursive, sans-serif; }
+.sub-theme { font-size: 11px; font-weight: 800; color: #1E3A8A; margin: 4px 0; }
+.tagline { font-size: 16px; font-style: italic; color: #D97706; margin: 0; }
+
+.footer-bar {
+    height: 120px;
+    background-color: var(--navy-bg);
+    width: 100%;
+    margin-top: auto;
+}

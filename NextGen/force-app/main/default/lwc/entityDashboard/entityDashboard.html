@@ -1,0 +1,122 @@
+<template>
+    <div class="dashboard-container">
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            <div class="banner-content">
+                <h1 class="welcome-title">Welcome to the Entity Portal</h1>
+                <p class="welcome-subtitle">Overview of statutory compliance, active grant allocations, and pending submissions.</p>
+            </div>
+            <div class="compliance-badge-wrapper">
+                <span class="compliance-label">Compliance Status</span>
+                <span class="status-pill status-compliant">Good Standing</span>
+            </div>
+        </div>
+
+        <!-- Metric KPI Cards -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon bg-blue">
+                    <lightning-icon icon-name="utility:money" size="small"></lightning-icon>
+                </div>
+                <div class="metric-info">
+                    <span class="metric-label">Active Allocation (FY26)</span>
+                    <span class="metric-value">R 1,250,000</span>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon bg-amber">
+                    <lightning-icon icon-name="utility:file" size="small"></lightning-icon>
+                </div>
+                <div class="metric-info">
+                    <span class="metric-label">Pending Acquittals</span>
+                    <span class="metric-value">1 Draft</span>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon bg-green">
+                    <lightning-icon icon-name="utility:check" size="small"></lightning-icon>
+                </div>
+                <div class="metric-info">
+                    <span class="metric-label">Verified Documents</span>
+                    <span class="metric-value">8 / 10</span>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon bg-purple">
+                    <lightning-icon icon-name="utility:clock" size="small"></lightning-icon>
+                </div>
+                <div class="metric-info">
+                    <span class="metric-label">Next Submission Due</span>
+                    <span class="metric-value">15 Oct 2026</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Navigation Cards -->
+        <div class="section-header">
+            <h2 class="section-title">Quick Actions</h2>
+        </div>
+        <div class="actions-grid">
+            <button class="action-card" onclick={handleNavReports}>
+                <lightning-icon icon-name="utility:add" size="medium" class="action-icon"></lightning-icon>
+                <div class="action-title">Submit Acquittal</div>
+                <div class="action-desc">Start a new quarterly financial report</div>
+            </button>
+            <button class="action-card" onclick={handleNavDocuments}>
+                <lightning-icon icon-name="utility:upload" size="medium" class="action-icon"></lightning-icon>
+                <div class="action-title">Upload Documents</div>
+                <div class="action-desc">Add tax, audit, or compliance files</div>
+            </button>
+            <button class="action-card" onclick={handleNavProfile}>
+                <lightning-icon icon-name="utility:user" size="medium" class="action-icon"></lightning-icon>
+                <div class="action-title">Entity Profile</div>
+                <div class="action-desc">Update organization details & leadership</div>
+            </button>
+        </div>
+
+        <!-- Content Layout: Recent Activity & Compliance Checklist -->
+        <div class="content-grid">
+            <!-- Recent Activity Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Recent Submissions & Activity</h2>
+                    <button class="link-btn" onclick={handleNavReports}>View All</button>
+                </div>
+                <div class="activity-list">
+                    <template for:each={activities} for:item="act">
+                        <div key={act.id} class="activity-item">
+                            <div class="activity-icon-col">
+                                <lightning-icon icon-name={act.icon} size="x-small"></lightning-icon>
+                            </div>
+                            <div class="activity-details">
+                                <div class="activity-title">{act.title}</div>
+                                <div class="activity-meta">{act.date} • {act.reference}</div>
+                            </div>
+                            <div class="activity-status">
+                                <span class={act.badgeClass}>{act.status}</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Compliance Checklist -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Compliance Checklist</h2>
+                </div>
+                <div class="checklist">
+                    <template for:each={checklistItems} for:item="item">
+                        <div key={item.id} class="check-item">
+                            <lightning-icon icon-name={item.icon} size="x-small" class={item.iconClass}></lightning-icon>
+                            <div class="check-info">
+                                <div class="check-label">{item.label}</div>
+                                <div class="check-due">Due: {item.dueDate}</div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,241 @@
+<template>
+    <!-- REPORTS LIST VIEW -->
+    <template if:true={isListView}>
+        <header class="header">
+            <div>
+                <h2 class="page-title">Reports</h2>
+                <p class="page-subtitle">View and manage submitted reports</p>
+            </div>
+            <div class="header-actions">
+                <div class="search-box">
+                    <lightning-icon icon-name="utility:search" size="x-small" class="search-icon"></lightning-icon>
+                    <input type="text" placeholder="Search..." class="search-input" />
+                </div>
+                <button class="icon-btn">
+                    <lightning-icon icon-name="utility:notification" size="small"></lightning-icon>
+                    <span class="notification-badge"></span>
+                </button>
+                <button class="primary-btn" onclick={handleOpenSubmitModal}>+ Submit Report</button>
+            </div>
+        </header>
+
+        <div class="card filter-card">
+            <h3 class="filter-card-title">Filter Submissions</h3>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label class="filter-label">ENTITY</label>
+                    <select class="select-dropdown full-width-select">
+                        <option>All Entities</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">REPORT TYPE</label>
+                    <select class="select-dropdown full-width-select">
+                        <option>All Types</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">STATUS</label>
+                    <select class="select-dropdown full-width-select">
+                        <option>All Statuses</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">REPORTING PERIOD</label>
+                    <select class="select-dropdown full-width-select">
+                        <option>FY 2024/25</option>
+                    </select>
+                </div>
+                <div class="filter-action-cell">
+                    <button class="reset-btn">Reset Filters</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>REPORT TITLE</th>
+                        <th>ENTITY</th>
+                        <th>PERIOD</th>
+                        <th>SUBMISSION DATE</th>
+                        <th>STATUS</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={reportsList} for:item="rpt">
+                        <tr key={rpt.id}>
+                            <td class="font-bold">{rpt.title}</td>
+                            <td class="text-muted">{rpt.entity}</td>
+                            <td class="text-muted">{rpt.period}</td>
+                            <td class="text-muted">{rpt.date}</td>
+                            <td><span class={rpt.statusClass}>{rpt.status}</span></td>
+                            <td>
+                                <button class="outline-btn" onclick={handleViewReport} data-id={rpt.id}>View</button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <span class="text-muted">Showing 1-8 of 342 entries</span>
+                <div class="pagination-controls">
+                    <button class="page-btn">Prev</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">Next</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- REPORT DETAILS VIEW -->
+    <template if:true={isDetailsView}>
+        <header class="header">
+            <div class="title-with-badge">
+                <div class="entity-title-row">
+                    <a onclick={showListView} class="back-link">&larr; Reports</a>
+                    <h2 class="page-title">{selectedReport.title}</h2>
+                    <span class={selectedReport.statusClass}>{selectedReport.status}</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="outline-btn flex-btn">
+                    <lightning-icon icon-name="utility:download" size="x-small" class="btn-icon"></lightning-icon>
+                    Download
+                </button>
+                <button class="amber-outline-btn">Request Changes</button>
+                <button class="approve-btn">Approve Report</button>
+            </div>
+        </header>
+
+        <div class="grid-2-1">
+            <!-- Left Column -->
+            <div class="left-col-stack">
+                <div class="card">
+                    <h3 class="card-title font-bold">Submission Information</h3>
+                    <div class="info-grid-2x2">
+                        <div class="info-block">
+                            <span class="info-label">REPORTING ENTITY</span>
+                            <p class="info-value font-bold">{selectedReport.entity}</p>
+                        </div>
+                        <div class="info-block">
+                            <span class="info-label">REPORT TYPE</span>
+                            <p class="info-value font-bold">{selectedReport.type}</p>
+                        </div>
+                        <div class="info-block">
+                            <span class="info-label">REPORTING PERIOD</span>
+                            <p class="info-value font-bold">{selectedReport.periodFull}</p>
+                        </div>
+                        <div class="info-block">
+                            <span class="info-label">SUBMISSION DATE</span>
+                            <p class="info-value font-bold">{selectedReport.submissionDateFull}</p>
+                        </div>
+                    </div>
+                    <div class="info-block margin-top-md">
+                        <span class="info-label">SUBMITTED BY</span>
+                        <p class="info-value font-bold">{selectedReport.submittedBy}</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title font-bold">Uploaded Documents</h3>
+                    <div class="uploaded-files-list">
+                        <template for:each={selectedReport.documents} for:item="doc">
+                            <div key={doc.name} class="file-card">
+                                <div class="file-info">
+                                    <lightning-icon icon-name="utility:file" size="small" class="file-icon"></lightning-icon>
+                                    <div>
+                                        <div class="file-name font-bold">{doc.name}</div>
+                                        <div class="file-size text-muted">{doc.size}</div>
+                                    </div>
+                                </div>
+                                <button class="file-download-btn">
+                                    <lightning-icon icon-name="utility:download" size="x-small"></lightning-icon>
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-col-stack">
+                <div class="card">
+                    <h3 class="card-title font-bold">Review Comments</h3>
+                    <div class="comment-box">
+                        <div class="comment-header">
+                            <span class="comment-author font-bold">DSAC Reviewer 1</span>
+                            <span class="comment-date text-muted">16 Oct 2025</span>
+                        </div>
+                        <p class="comment-body text-muted">
+                            Please double-check the development targets on Page 14. They seem to mismatch the Annexure numbers.
+                        </p>
+                    </div>
+                    <div class="comment-input-row">
+                        <input type="text" placeholder="Add a comment..." class="comment-input" />
+                        <button class="send-btn">Send</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title font-bold">Approval Workflow History</h3>
+                    <ul class="workflow-timeline">
+                        <li class="workflow-item completed">
+                            <div class="workflow-node"></div>
+                            <div class="workflow-content">
+                                <div class="workflow-title font-bold">Submitted</div>
+                                <div class="workflow-sub text-muted">Thabo Mokoena</div>
+                                <div class="workflow-time text-muted">15 Oct 2025, 14:32</div>
+                            </div>
+                        </li>
+                        <li class="workflow-item active">
+                            <div class="workflow-node"></div>
+                            <div class="workflow-content">
+                                <div class="workflow-title font-bold">Under Review</div>
+                                <div class="workflow-sub text-muted">Assigned to Audit Division</div>
+                                <div class="workflow-time text-muted">15 Oct 2025, 16:00</div>
+                            </div>
+                        </li>
+                        <li class="workflow-item pending">
+                            <div class="workflow-node"></div>
+                            <div class="workflow-content">
+                                <div class="workflow-title font-bold">Pending Approval</div>
+                                <div class="workflow-sub text-muted">Director General Sign-off</div>
+                                <div class="workflow-time text-muted">In Progress</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- SUBMIT REPORT MODAL -->
+    <template if:true={isSubmitModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Submit New Report</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="form-grid">
+                        <lightning-input label="Report Title" name="title" value={newReportData.title} onchange={handleReportInputChange} class="full-width"></lightning-input>
+                        <lightning-input label="Entity" name="entity" value={newReportData.entity} onchange={handleReportInputChange}></lightning-input>
+                        <lightning-input label="Period" name="period" value={newReportData.period} onchange={handleReportInputChange}></lightning-input>
+                        <lightning-input label="Submission Date" type="date" name="date" value={newReportData.date} onchange={handleReportInputChange}></lightning-input>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="outline-btn modal-btn" onclick={handleCloseSubmitModal}>Cancel</button>
+                    <button class="primary-btn modal-btn" onclick={handleSaveNewReport}>Submit</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

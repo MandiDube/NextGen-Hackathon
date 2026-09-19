@@ -1,0 +1,41 @@
+<template>
+    <header class="page-header">
+        <div>
+            <h1 class="page-title">Alerts</h1>
+            <p class="page-subtitle">Notifications and action items</p>
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn"><lightning-icon icon-name="utility:notification" size="small"></lightning-icon></button>
+            <button class="link-btn">Mark All as Read</button>
+        </div>
+    </header>
+
+    <div class="filter-pills">
+        <button class="pill-btn active">All <span class="badge">12</span></button>
+        <button class="pill-btn">Overdue <span class="badge">3</span></button>
+        <button class="pill-btn">Upcoming <span class="badge">3</span></button>
+        <button class="pill-btn">System <span class="badge">2</span></button>
+    </div>
+
+    <div class="alert-list">
+        <template for:each={alerts} for:item="alert">
+            <div key={alert.id} class={alert.cardClass}>
+                <div class="alert-icon-box">
+                    <lightning-icon icon-name={alert.icon} size="small" class={alert.iconClass}></lightning-icon>
+                </div>
+                <div class="alert-content">
+                    <div class="alert-top">
+                        <h4 class="alert-title">{alert.title}</h4>
+                        <span class="alert-date">{alert.date}</span>
+                    </div>
+                    <p class="alert-desc">{alert.description}</p>
+                    <span class="alert-entity">ENTITY: <strong>{alert.entity}</strong></span>
+                </div>
+                <div class="alert-actions">
+                    <button class="outline-btn">Mark Read</button>
+                    <button class="purple-btn" data-id={alert.id} onclick={handleViewDetails}>View Details</button>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

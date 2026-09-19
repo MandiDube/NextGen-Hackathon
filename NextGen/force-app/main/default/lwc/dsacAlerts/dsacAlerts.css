@@ -1,0 +1,34 @@
+:host { display: block; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.page-title { font-size: 24px; font-weight: 800; margin: 0; color: #1A1A38; }
+.page-subtitle { font-size: 13px; color: #8E9BB0; margin: 4px 0 0 0; }
+.header-actions { display: flex; gap: 12px; align-items: center; }
+.icon-btn { background: #FFF; border: 1px solid #E2E8F0; padding: 8px; border-radius: 8px; cursor: pointer; }
+.link-btn { background: none; border: none; color: #6C5CE7; font-weight: 700; font-size: 13px; cursor: pointer; }
+
+.filter-pills { display: flex; gap: 8px; margin-bottom: 20px; }
+.pill-btn { background: #FFF; border: 1px solid #E2E8F0; padding: 8px 16px; border-radius: 8px; font-weight: 600; color: #8E9BB0; cursor: pointer; display: flex; gap: 6px; align-items: center; }
+.pill-btn.active { background: #6C5CE7; color: #FFF; border-color: #6C5CE7; }
+.badge { background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 10px; font-size: 10px; }
+
+.alert-list { display: flex; flex-direction: column; gap: 12px; }
+.alert-card { background: #FFF; border: 1px solid #EEF2F6; border-radius: 8px; padding: 16px; display: flex; gap: 16px; align-items: center; border-left-width: 4px; }
+.border-red { border-left-color: #E53E3E; }
+.border-amber { border-left-color: #DD6B20; }
+.border-blue { border-left-color: #3182CE; }
+
+.alert-icon-box { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.border-red .alert-icon-box { background: #FCE8E6; }
+.border-amber .alert-icon-box { background: #FEFCBF; }
+.border-blue .alert-icon-box { background: #EBF8FF; }
+
+.alert-content { flex: 1; }
+.alert-top { display: flex; justify-content: space-between; align-items: center; }
+.alert-title { font-size: 14px; font-weight: 700; margin: 0; color: #1E293B; }
+.alert-date { font-size: 11px; color: #8E9BB0; }
+.alert-desc { font-size: 12px; color: #64748B; margin: 4px 0 6px 0; }
+.alert-entity { font-size: 10px; color: #8E9BB0; text-transform: uppercase; }
+
+.alert-actions { display: flex; gap: 8px; }
+.outline-btn { background: #FFF; border: 1px solid #E2E8F0; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.purple-btn { background: #6C5CE7; color: #FFF; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }

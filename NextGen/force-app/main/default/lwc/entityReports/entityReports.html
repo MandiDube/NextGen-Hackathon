@@ -1,0 +1,130 @@
+<template>
+    <div class="reports-container">
+        <!-- Section Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Grant Acquittal & Compliance Submissions</h1>
+                <p class="page-subtitle">Manage quarterly financial acquittals, progress updates, and statutory compliance filings.</p>
+            </div>
+            <button class="btn-primary" onclick={handleOpenModal}>
+                <lightning-icon icon-name="utility:add" size="x-small" class="btn-icon"></lightning-icon>
+                Create New Submission
+            </button>
+        </div>
+
+        <!-- Summary Metric Cards -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <span class="metric-label">Total Submissions</span>
+                <span class="metric-value">{totalCount}</span>
+            </div>
+            <div class="metric-card warning">
+                <span class="metric-label">Action Required / Drafts</span>
+                <span class="metric-value">{draftCount}</span>
+            </div>
+            <div class="metric-card info">
+                <span class="metric-label">Under DSAC Review</span>
+                <span class="metric-value">{reviewCount}</span>
+            </div>
+            <div class="metric-card success">
+                <span class="metric-label">Approved Acquittals</span>
+                <span class="metric-value">{approvedCount}</span>
+            </div>
+        </div>
+
+        <!-- Reports Data Table -->
+        <div class="card-table-wrapper">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Reference #</th>
+                        <th>Report Title</th>
+                        <th>Reporting Period</th>
+                        <th>Grant Amount</th>
+                        <th>Submission Date</th>
+                        <th>Status</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={reports} for:item="rpt">
+                        <tr key={rpt.id}>
+                            <td class="font-bold">{rpt.refNo}</td>
+                            <td>
+                                <div class="rpt-title">{rpt.title}</div>
+                                <div class="rpt-sub">{rpt.category}</div>
+                            </td>
+                            <td>{rpt.period}</td>
+                            <td>{rpt.amount}</td>
+                            <td>{rpt.submittedDate}</td>
+                            <td>
+                                <span class={rpt.statusBadgeClass}>{rpt.status}</span>
+                            </td>
+                            <td class="text-right">
+                                <button class="btn-action" data-id={rpt.id} onclick={handleViewReport}>
+                                    View Details
+                                </button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Create New Submission Modal -->
+        <template if:true={isModalOpen}>
+            <div class="modal-backdrop">
+                <div class="modal-container">
+                    <div class="modal-header">
+                        <h2>New Acquittal Submission</h2>
+                        <button class="close-btn" onclick={handleCloseModal}>&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-grid">
+                            <div class="field-group full-width">
+                                <label class="field-label">Submission Title *</label>
+                                <input type="text" class="form-input" placeholder="e.g. Q1 2026 Operational Grant Acquittal" data-field="title" value={newReport.title} onchange={handleInputChange} />
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label">Funding Category *</label>
+                                <select class="form-input" data-field="category" onchange={handleInputChange}>
+                                    <option value="Operational Grant">Operational Grant</option>
+                                    <option value="Sports Development Fund">Sports Development Fund</option>
+                                    <option value="Cultural Event Grant">Cultural Event Grant</option>
+                                    <option value="Infrastructure Support">Infrastructure Support</option>
+                                </select>
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label">Reporting Period *</label>
+                                <input type="text" class="form-input" placeholder="e.g. Q1 2026 (Jan - Mar)" data-field="period" value={newReport.period} onchange={handleInputChange} />
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label">Allocated Amount (ZAR) *</label>
+                                <input type="text" class="form-input" placeholder="R 250,000.00" data-field="amount" value={newReport.amount} onchange={handleInputChange} />
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label">Audited / Expended Amount (ZAR) *</label>
+                                <input type="text" class="form-input" placeholder="R 250,000.00" data-field="expendedAmount" value={newReport.expendedAmount} onchange={handleInputChange} />
+                            </div>
+
+                            <div class="field-group full-width">
+                                <label class="field-label">Executive Summary & Compliance Notes</label>
+                                <textarea class="form-textarea" rows="3" placeholder="Provide a brief overview of grant expenditure and project milestones..." data-field="notes" onchange={handleInputChange}></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn-secondary" onclick={handleCloseModal}>Cancel</button>
+                        <button class="btn-primary" onclick={handleSubmitNewReport}>Submit to DSAC</button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

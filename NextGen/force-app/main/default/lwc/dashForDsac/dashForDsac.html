@@ -1,0 +1,47 @@
+<template>
+    <div class="app-container">
+        <!-- DSAC Admin Sidebar -->
+        <c-dsac-sidebar 
+            active-tab={currentView} 
+            user-persona="dsac"
+            onnavselect={handleViewChange}>
+        </c-dsac-sidebar>
+
+        <main class="main-content">
+            <!-- DSAC Compliance Dashboard -->
+            <template if:true={isDashboard}>
+                <c-dsac-dashboard oninspectrecord={handleInspectRecord}></c-dsac-dashboard>
+            </template>
+
+            <!-- Managed Entities Directory -->
+            <template if:true={isEntities}>
+                <c-dsac-entities></c-dsac-entities>
+            </template>
+
+            <!-- Departmental Review & Report Audit -->
+            <template if:true={isReports}>
+                <c-dsac-reports lwc:ref="reportsComp"></c-dsac-reports>
+            </template>
+
+            <!-- Report Detail Inspector View -->
+            <template if:true={isReportDetail}>
+                <c-dsac-report-details record-id={selectedRecordId} onback={handleBackToReports}></c-dsac-report-details>
+            </template>
+
+            <!-- Executive Analytics -->
+            <template if:true={isAnalytics}>
+                <c-dsac-analytics></c-dsac-analytics>
+            </template>
+
+            <!-- Central Document Vault -->
+            <template if:true={isDocuments}>
+                <c-dsac-document-repo></c-dsac-document-repo>
+            </template>
+
+            <!-- Admin Settings & User Permissions -->
+            <template if:true={isSettings}>
+                <c-dsac-settings-form></c-dsac-settings-form>
+            </template>
+        </main>
+    </div>
+</template>

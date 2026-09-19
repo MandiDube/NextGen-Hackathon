@@ -1,0 +1,89 @@
+<template>
+    <div class="page-container">
+        <!-- Header -->
+        <header class="branding-header">
+            <div class="header-left">
+                <h1 class="brand-title">DSAC</h1>
+                <p class="brand-subtitle">Sport, Arts & Culture<br/>Reporting Platform</p>
+            </div>
+            <div class="header-right">
+                <div class="coat-of-arms-stub">
+                    <div class="symbol-circle"></div>
+                    <div class="gov-text">
+                        <span class="gov-title">sport, arts & culture</span>
+                        <span class="gov-dept">Department:<br/>Sport, Arts and Culture<br/><strong>REPUBLIC OF SOUTH AFRICA</strong></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Form -->
+        <main class="content-body">
+            <h2 class="form-title">Fill In The Details To Create Account</h2>
+
+            <div class="form-grid">
+                <!-- Row 1: First Name & Last Name -->
+                <div class="field-group">
+                    <label class="field-label">First Name:</label>
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        value={firstName} 
+                        onchange={handleFirstNameChange} />
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Last Name:</label>
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        value={lastName} 
+                        onchange={handleLastNameChange} />
+                </div>
+
+                <!-- Row 2: Email Address -->
+                <div class="field-group">
+                    <label class="field-label">Email Address:</label>
+                    <input 
+                        type="email" 
+                        class="form-input" 
+                        value={email} 
+                        onchange={handleEmailChange} />
+                </div>
+
+                <div class="empty-cell"></div>
+
+                <!-- Row 3: Create Password -->
+                <div class="field-group">
+                    <label class="field-label">Create Password:</label>
+                    <input 
+                        type="password" 
+                        class="form-input" 
+                        value={password} 
+                        onchange={handlePasswordChange} />
+                </div>
+
+                <div class="empty-cell"></div>
+
+                <!-- Row 4: Confirm Password -->
+                <div class="field-group">
+                    <label class="field-label">Confirm Password:</label>
+                    <input 
+                        type="password" 
+                        class="form-input" 
+                        value={confirmPassword} 
+                        onchange={handleConfirmPasswordChange} />
+                </div>
+
+                <div class="empty-cell"></div>
+            </div>
+
+            <div class="action-row">
+                <button class="submit-btn" onclick={handleSubmit}>Submit</button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer-bar"></footer>
+    </div>
+</template>

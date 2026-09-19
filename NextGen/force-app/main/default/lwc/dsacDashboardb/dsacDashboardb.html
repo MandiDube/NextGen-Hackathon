@@ -1,0 +1,124 @@
+<template>
+    <header class="header">
+        <div>
+            <h2 class="page-title">Dashboard</h2>
+            <p class="page-subtitle">Overview of reporting activity and compliance</p>
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn">
+                <lightning-icon icon-name="utility:notification" size="small"></lightning-icon>
+                <span class="notification-badge"></span>
+            </button>
+            <button class="primary-btn" onclick={handleNewReportClick}>+ New Report</button>
+        </div>
+    </header>
+
+    <section class="kpi-grid">
+        <div class="kpi-card">
+            <span class="kpi-title">TOTAL ENTITIES</span>
+            <div class="kpi-value-container">
+                <span class="kpi-value">342</span>
+                <span class="badge badge-green">+12</span>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-title">REPORTS SUBMITTED</span>
+            <div class="kpi-value-container">
+                <span class="kpi-value">1,287</span>
+                <span class="badge badge-green">+86</span>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-title">COMPLIANCE RATE</span>
+            <div class="kpi-value-container">
+                <span class="kpi-value">78%</span>
+            </div>
+        </div>
+        <div class="kpi-card border-warning">
+            <span class="kpi-title">OVERDUE REPORTS</span>
+            <div class="kpi-value-container">
+                <span class="kpi-value">23</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid-2-1">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Submission Trends</h3>
+                <span class="card-subtext">Jul - Dec 2024</span>
+            </div>
+            <div class="chart-container">
+                <svg viewBox="0 0 500 150" class="line-chart">
+                    <polyline fill="none" stroke="#6C5CE7" stroke-width="3" points="20,120 90,105 160,115 230,70 300,75 370,20" />
+                    <circle cx="20" cy="120" r="3" fill="#6C5CE7" />
+                    <circle cx="90" cy="105" r="3" fill="#6C5CE7" />
+                    <circle cx="160" cy="115" r="3" fill="#6C5CE7" />
+                    <circle cx="230" cy="70" r="3" fill="#6C5CE7" />
+                    <circle cx="300" cy="75" r="3" fill="#6C5CE7" />
+                    <circle cx="370" cy="20" r="3" fill="#6C5CE7" />
+                </svg>
+                <div class="chart-labels">
+                    <span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">Compliance by Province</h3>
+            <div class="progress-list">
+                <template for:each={provinceData} for:item="prov">
+                    <div key={prov.code} class="progress-row">
+                        <span class="prov-code">{prov.code}</span>
+                        <span class="prov-name">{prov.name}</span>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style={prov.style}></div>
+                        </div>
+                        <span class="prov-val">{prov.value}%</span>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid-2-1">
+        <div class="card">
+            <h3 class="card-title">Recent Reports</h3>
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>REPORT TITLE</th>
+                        <th>ENTITY</th>
+                        <th>DATE</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={recentReports} for:item="report">
+                        <tr key={report.id}>
+                            <td class="font-bold">{report.title}</td>
+                            <td class="text-muted">{report.entity}</td>
+                            <td class="text-muted">{report.date}</td>
+                            <td><span class={report.statusClass}>{report.status}</span></td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">Upcoming Deadlines</h3>
+            <div class="deadline-list">
+                <template for:each={deadlines} for:item="dl">
+                    <div key={dl.id} class={dl.cardClass}>
+                        <div>
+                            <div class="deadline-title">{dl.title}</div>
+                            <div class="deadline-sub">{dl.sub}</div>
+                        </div>
+                        <div class={dl.dateClass}>{dl.date}</div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

@@ -1,0 +1,86 @@
+<template>
+    <header class="header">
+        <div>
+            <h2 class="page-title">Settings</h2>
+            <p class="page-subtitle">System configuration and preferences</p>
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn" onclick={handleNotificationClick} title="Notifications">
+                <lightning-icon icon-name="utility:notification" size="small"></lightning-icon>
+                <span class="notification-badge"></span>
+            </button>
+            <button class="primary-btn" onclick={handleSaveChanges}>Save Changes</button>
+        </div>
+    </header>
+
+    <div class="settings-grid">
+        <aside class="sub-nav-card">
+            <ul>
+                <template for:each={navList} for:item="nav">
+                    <li key={nav.id} class={nav.className} data-id={nav.id} onclick={handleSubNavClick}>
+                        {nav.label}
+                    </li>
+                </template>
+            </ul>
+        </aside>
+
+        <main class="card">
+            <h3 class="card-title">{activeTabLabel}</h3>
+            
+            <template if:true={isProfileTab}>
+                <div class="profile-header">
+                    <div class="avatar">{userInitials}</div>
+                    <div>
+                        <div class="user-title-name">{fullName}</div>
+                        <div class="user-title-role">{userRole}</div>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="info-label">FULL NAME</label>
+                        <input type="text" class="custom-input" value={fullName} readonly />
+                    </div>
+                    <div class="form-group">
+                        <label class="info-label">EMAIL ADDRESS</label>
+                        <input type="email" class="custom-input" value={email} readonly />
+                    </div>
+                    <div class="form-group">
+                        <label class="info-label">PHONE NUMBER</label>
+                        <input type="text" class="custom-input" value={phone} onchange={handlePhoneChange} />
+                    </div>
+                    <div class="form-group">
+                        <label class="info-label">DEPARTMENT</label>
+                        <select class="select-dropdown full-width" onchange={handleDepartmentChange}>
+                            <template for:each={departmentOptions} for:item="opt">
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            </template>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="info-label">ROLE</label>
+                        <select class="select-dropdown full-width" onchange={handleRoleChange}>
+                            <template for:each={roleOptions} for:item="opt">
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            </template>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="info-label">SYSTEM ACCESS LEVEL</label>
+                        <select class="select-dropdown full-width" onchange={handleAccessChange}>
+                            <template for:each={accessOptions} for:item="opt">
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+            </template>
+
+            <template if:false={isProfileTab}>
+                <div class="placeholder-settings">
+                    <p>Settings panel for <strong>{activeTabLabel}</strong> is configured and operating normally.</p>
+                </div>
+            </template>
+        </main>
+    </div>
+</template>

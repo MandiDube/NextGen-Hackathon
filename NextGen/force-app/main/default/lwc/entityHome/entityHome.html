@@ -1,0 +1,61 @@
+<template>
+    <div class="page-container">
+        <header class="branding-header">
+            <div class="header-left">
+                <h1 class="brand-title">DSAC</h1>
+                <p class="brand-subtitle">Sport, Arts & Culture<br/>Entity Portal</p>
+            </div>
+            <div class="header-right">
+                <div class="coat-of-arms-stub">
+                    <div class="symbol-circle"></div>
+                    <div class="gov-text">
+                        <span class="gov-title">sport, arts & culture</span>
+                        <span class="gov-dept">Department:<br/>Sport, Arts and Culture<br/><strong>REPUBLIC OF SOUTH AFRICA</strong></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="content-body">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <span class="category-tag">OFFICIAL COMPLIANCE & REPORTING HUB</span>
+                    <h1 class="hero-title">Grant Acquittal & Entity Verification Portal</h1>
+                    <p class="hero-desc">Access official DSAC reporting tools, upload statutory compliance documentation, and manage organizational grant submissions securely.</p>
+                    
+                    <div class="cta-group">
+                        <button class="btn-primary" onclick={handleLoginClick}>Entity Portal Sign In</button>
+                        <button class="btn-outline" onclick={handleRegisterClick}>Register New Entity</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon-badge">
+                        <lightning-icon icon-name="utility:task" size="small"></lightning-icon>
+                    </div>
+                    <h3>Statutory Reporting</h3>
+                    <p>Submit quarterly progress updates, financial acquittals, and operational metrics.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon-badge">
+                        <lightning-icon icon-name="utility:shield" size="small"></lightning-icon>
+                    </div>
+                    <h3>Verification Vault</h3>
+                    <p>Maintain up-to-date Tax Compliance Status, CIPC documentation, and governance files.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon-badge">
+                        <lightning-icon icon-name="utility:event" size="small"></lightning-icon>
+                    </div>
+                    <h3>Deadline Alerts</h3>
+                    <p>Track national funding submission cycles and receive automated acquittal reminders.</p>
+                </div>
+            </div>
+        </main>
+        <footer class="footer-bar"></footer>
+    </div>
+</template>

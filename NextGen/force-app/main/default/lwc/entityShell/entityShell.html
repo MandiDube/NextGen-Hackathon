@@ -1,0 +1,58 @@
+<template>
+    <!-- Unauthenticated Journey -->
+    <template if:false={isLoggedIn}>
+        <template if:true={isHomeView}>
+            <c-entity-home 
+                onnavigatelogin={handleNavigateLogin} 
+                onnavigateregister={handleNavigateRegister}>
+            </c-entity-home>
+        </template>
+
+        <template if:true={isLoginView}>
+            <c-entity-login 
+                onloginsuccess={handleLoginSuccess} 
+                onnavigateregister={handleNavigateRegister}
+                onnavigatehome={handleNavigateHome}>
+            </c-entity-login>
+        </template>
+
+        <template if:true={isRegisterView}>
+            <c-entity-register 
+                onregistersuccess={handleRegisterSuccess} 
+                onnavigatelogin={handleNavigateLogin}
+                onnavigatehome={handleNavigateHome}>
+            </c-entity-register>
+        </template>
+    </template>
+
+    <!-- Authenticated Entity Dashboard Journey -->
+    <template if:true={isLoggedIn}>
+        <div class="app-container">
+            <c-entity-sidebar 
+                active-tab={currentTab} 
+                entity-name={entityName}
+                onnavselect={handleNavSelect}
+                onlogout={handleLogout}>
+            </c-entity-sidebar>
+
+            <main class="main-content">
+                <template if:true={isDashboard}>
+                    <c-entity-dashboard onnavigatereports={handleNavigateReports}></c-entity-dashboard>
+                </template>
+
+                <template if:true={isReports}>
+                    <c-entity-reports></c-entity-reports>
+                </template>
+
+                <template if:true={isDocuments}>
+                    <c-entity-documents></c-entity-documents>
+                </template>
+                                
+                <template if:true={isSettings}>
+                    <c-entity-settings></c-entity-settings>
+                </template>
+
+            </main>
+        </div>
+    </template>
+</template>

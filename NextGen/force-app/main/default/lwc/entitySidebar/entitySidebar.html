@@ -1,0 +1,47 @@
+<template>
+    <aside class="sidebar">
+        <div class="brand-section">
+            <div class="logo-box">
+                <lightning-icon icon-name="utility:company" size="small" class="brand-icon"></lightning-icon>
+            </div>
+            <div>
+                <h1 class="brand-title">Entity Portal</h1>
+                <p class="brand-subtitle">{entityName}</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a class={dashboardClass} data-tab="dashboard" onclick={handleNavClick}>
+                <lightning-icon icon-name="utility:table" size="x-small" class="nav-icon"></lightning-icon>
+                <span>Dashboard</span>
+            </a>
+            <a class={reportsClass} data-tab="reports" onclick={handleNavClick}>
+                <lightning-icon icon-name="utility:file" size="x-small" class="nav-icon"></lightning-icon>
+                <span>My Submissions</span>
+            </a>
+            <a class={documentsClass} data-tab="documents" onclick={handleNavClick}>
+                <lightning-icon icon-name="utility:opened_folder" size="x-small" class="nav-icon"></lightning-icon>
+                <span>Documents</span>
+            </a>
+            <a class={settingsClass} data-tab="settings" onclick={handleNavClick}>
+                <lightning-icon icon-name="utility:settings" size="x-small" class="nav-icon"></lightning-icon>
+                <span>Entity Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div>
+                    <div class="user-name">Entity Representative</div>
+                    <div class="user-role">Reporting Officer</div>
+                </div>
+                <lightning-icon 
+                    icon-name="utility:logout" 
+                    size="x-small" 
+                    class="logout-icon" 
+                    onclick={handleLogoutClick}>
+                </lightning-icon>
+            </div>
+        </div>
+    </aside>
+</template>

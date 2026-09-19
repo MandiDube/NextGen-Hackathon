@@ -1,0 +1,106 @@
+:host {
+    --navy-bg: #1A224F;
+    --navy-btn: #1B224B;
+    --navy-hover: #131838;
+    --link-blue: #2563EB;
+    --gold-accent: #D97706;
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.page-container { display: flex; flex-direction: column; min-height: 100vh; background-color: #F8FAFC; }
+
+.branding-header {
+    display: flex;
+    height: 90px;
+    width: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.header-left {
+    background-color: var(--navy-bg);
+    color: #FFFFFF;
+    width: 40%;
+    padding: 16px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.brand-title { font-size: 22px; font-weight: 800; margin: 0; }
+.brand-subtitle { font-size: 10px; margin-top: 2px; line-height: 1.2; opacity: 0.9; }
+
+.header-right {
+    width: 60%;
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.coat-of-arms-stub { display: flex; align-items: center; gap: 16px; }
+.symbol-circle { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--gold-accent); }
+.gov-text { display: flex; flex-direction: column; color: #0F172A; }
+.gov-title { font-size: 20px; font-weight: 700; line-height: 1; }
+.gov-dept { font-size: 9px; margin-top: 2px; line-height: 1.1; color: #475569; }
+
+.content-body { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px 20px; }
+
+.login-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    border: 1px solid #E2E8F0;
+    width: 100%;
+    max-width: 460px;
+    padding: 36px;
+}
+
+.card-header h2 { font-size: 24px; font-weight: 800; color: #0F172A; margin: 0; }
+.card-header p { font-size: 14px; color: #64748B; margin: 6px 0 24px 0; }
+
+.field-group { margin-bottom: 20px; }
+.field-label { display: block; font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 6px; }
+
+.form-input {
+    width: 100%;
+    height: 46px;
+    border: 1px solid #CBD5E1;
+    border-radius: 6px;
+    padding: 0 14px;
+    font-size: 15px;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    transition: all 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--navy-bg);
+    box-shadow: 0 0 0 3px rgba(26, 34, 79, 0.15);
+}
+
+.signup-prompt { font-size: 14px; color: #475569; margin-top: 16px; }
+.signup-link { color: var(--link-blue); font-weight: 600; text-decoration: none; }
+.signup-link:hover { text-decoration: underline; }
+
+.action-row { margin-top: 28px; }
+
+.submit-btn {
+    width: 100%;
+    background-color: var(--navy-btn);
+    color: #FFFFFF;
+    border: none;
+    height: 48px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover { background-color: var(--navy-hover); }
+
+.footer-bar { height: 100px; background-color: var(--navy-bg); width: 100%; margin-top: auto; }

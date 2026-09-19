@@ -1,0 +1,25 @@
+<template>
+    <!-- Floating Chat Button -->
+    <div class="chat-button" onclick={toggleChat}>
+        💬
+    </div>
+
+    <!-- Chat Window -->
+    <template if:true={isOpen}>
+        <div class="chat-window">
+            <div class="chat-header">
+                <span>HR Chat</span>
+                <button onclick={toggleChat}>✖</button>
+            </div>
+            <div class="chat-messages">
+                <template for:each={messages} for:item="msg">
+                    <div key={msg.id} class={msg.senderClass}>{msg.text}</div>
+                </template>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Type your message..." value={newMessage} oninput={handleInput}/>
+                <button onclick={sendMessage}>Send</button>
+            </div>
+        </div>
+    </template>
+</template>

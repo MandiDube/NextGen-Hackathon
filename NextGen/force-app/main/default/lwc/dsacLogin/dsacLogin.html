@@ -1,0 +1,55 @@
+<template>
+    <div class="page-container">
+        <!-- Header -->
+        <header class="branding-header">
+            <div class="header-left">
+                <h1 class="brand-title">DSAC</h1>
+                <p class="brand-subtitle">Sport, Arts & Culture<br/>Reporting Platform</p>
+            </div>
+            <div class="header-right">
+                <div class="coat-of-arms-stub">
+                    <div class="symbol-circle"></div>
+                    <div class="gov-text">
+                        <span class="gov-title">sport, arts & culture</span>
+                        <span class="gov-dept">Department:<br/>Sport, Arts and Culture<br/><strong>REPUBLIC OF SOUTH AFRICA</strong></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Form -->
+        <main class="content-body">
+            <div class="form-container">
+                <div class="field-group">
+                    <label class="field-label">Enter Username:</label>
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        value={username} 
+                        onchange={handleUsernameChange} />
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Enter Password:</label>
+                    <input 
+                        type="password" 
+                        class="form-input" 
+                        value={password} 
+                        onchange={handlePasswordChange} />
+                </div>
+
+                <div class="signup-prompt">
+                    <span>Don't have an account? </span>
+                    <a href="javascript:void(0);" onclick={handleNavigateSignUp} class="signup-link">Sign Up</a>
+                </div>
+
+                <div class="action-row">
+                    <button class="submit-btn" onclick={handleSignIn}>Sign In</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer-bar"></footer>
+    </div>
+</template>

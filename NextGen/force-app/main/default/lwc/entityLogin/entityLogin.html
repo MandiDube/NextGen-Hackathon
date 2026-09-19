@@ -1,0 +1,48 @@
+<template>
+    <div class="page-container">
+        <header class="branding-header">
+            <div class="header-left" onclick={handleNavigateHome}>
+                <h1 class="brand-title">DSAC</h1>
+                <p class="brand-subtitle">Sport, Arts & Culture<br/>Entity Portal</p>
+            </div>
+            <div class="header-right">
+                <div class="coat-of-arms-stub">
+                    <div class="symbol-circle"></div>
+                    <div class="gov-text">
+                        <span class="gov-title">sport, arts & culture</span>
+                        <span class="gov-dept">Department:<br/>Sport, Arts and Culture<br/><strong>REPUBLIC OF SOUTH AFRICA</strong></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="content-body">
+            <div class="login-card">
+                <div class="card-header">
+                    <h2>Entity Sign In</h2>
+                    <p>Enter your credentials to manage reports and compliance files.</p>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Username or Email</label>
+                    <input type="text" class="form-input" value={username} onchange={handleUsernameChange} placeholder="rep@entity.org.za" />
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Password</label>
+                    <input type="password" class="form-input" value={password} onchange={handlePasswordChange} placeholder="••••••••" />
+                </div>
+
+                <div class="signup-prompt">
+                    <span>Don't have an entity account? </span>
+                    <a href="javascript:void(0);" onclick={handleNavigateSignUp} class="signup-link">Register Entity</a>
+                </div>
+
+                <div class="action-row">
+                    <button class="submit-btn" onclick={handleSignIn}>Sign In to Dashboard</button>
+                </div>
+            </div>
+        </main>
+        <footer class="footer-bar"></footer>
+    </div>
+</template>

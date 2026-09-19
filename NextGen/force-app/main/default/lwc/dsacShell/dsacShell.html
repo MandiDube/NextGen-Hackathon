@@ -1,0 +1,83 @@
+<template>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand-section">
+                <div class="logo-box">
+                    <lightning-icon icon-name="utility:shield" size="small" class="brand-icon"></lightning-icon>
+                </div>
+                <div>
+                    <h1 class="brand-title">DSAC</h1>
+                    <p class="brand-subtitle">Sport, Arts & Culture</p>
+                    <p class="brand-tag">Reporting Platform</p>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a class={dashboardClass} onclick={showDashboard}>
+                    <lightning-icon icon-name="utility:table" size="x-small" class="nav-icon"></lightning-icon>
+                    <span>Dashboard</span>
+                </a>
+                <a class={entitiesClass} onclick={showEntities}>
+                    <lightning-icon icon-name="utility:company" size="x-small" class="nav-icon"></lightning-icon>
+                    <span>Entities</span>
+                </a>
+                <a class={reportsClass} onclick={showReports}>
+                    <lightning-icon icon-name="utility:file" size="x-small" class="nav-icon"></lightning-icon>
+                    <span>Reports</span>
+                </a>
+                <a class={analyticsClass} onclick={showAnalytics}>
+                    <lightning-icon icon-name="utility:chart" size="x-small" class="nav-icon"></lightning-icon>
+                    <span>Analytics</span>
+                </a>
+                <a class="nav-item">
+                    <lightning-icon icon-name="utility:notification" size="x-small" class="nav-icon"></lightning-icon>
+                    <span>Alerts</span>
+                </a>
+                <a class="nav-item">
+                    <lightning-icon icon-name="utility:opened_folder" size="x-small" class="nav-icon"></lightning-icon>
+                    <span>Document Repo</span>
+                </a>
+                <a class="nav-item">
+                    <lightning-icon icon-name="utility:settings" size="x-small" class="nav-icon"></lightning-icon>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="footer-banner">
+                    Stronger Communities Through Sport, Arts & Culture
+                </div>
+                <div class="user-profile">
+                    <div>
+                        <div class="user-name">Thabo M.</div>
+                        <div class="user-role">DSAC Admin</div>
+                    </div>
+                    <lightning-icon icon-name="utility:logout" size="x-small" class="logout-icon"></lightning-icon>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Shell -->
+        <main class="main-content">
+            <template if:true={isDashboard}>
+                <c-dsac-dashboard onopensubmitreport={handleNavigateToSubmitReport}></c-dsac-dashboard>
+            </template>
+
+            <template if:true={isEntities}>
+                <c-dsac-entities></c-dsac-entities>
+            </template>
+
+            <template if:true={isReports}>
+                <c-dsac-reports lwc:ref="reportsComp"></c-dsac-reports>
+            </template>
+
+            <template if:true={isAnalytics}>
+                <div class="card">
+                    <h2 class="page-title">Analytics</h2>
+                    <p class="text-muted">Analytics module loading...</p>
+                </div>
+            </template>
+        </main>
+    </div>
+</template>

@@ -1,0 +1,96 @@
+<template>
+    <header class="page-header">
+        <div class="title-with-tag">
+            <h1 class="page-title">{reportTitle}</h1>
+            <span class={statusBadgeClass}>{reportStatus}</span>
+        </div>
+        <div class="header-actions">
+            <button class="outline-btn" onclick={handleDownloadReport}>
+                <lightning-icon icon-name="utility:download" size="x-small"></lightning-icon> Download
+            </button>
+            <button class="amber-btn" onclick={handleRequestChanges}>Request Changes</button>
+            <button class="green-btn" onclick={handleApproveReport}>Approve Report</button>
+        </div>
+    </header>
+
+    <div class="details-grid">
+        <div class="left-col">
+            <div class="card">
+                <h3 class="card-title">Submission Information</h3>
+                <div class="info-grid">
+                    <div><label>REPORTING ENTITY</label><p>SA Sports Commission</p></div>
+                    <div><label>REPORT TYPE</label><p>Quarterly Performance Report</p></div>
+                    <div><label>REPORTING PERIOD</label><p>Q2 2025 (Jul - Sep)</p></div>
+                    <div><label>SUBMISSION DATE</label><p>15 Oct 2025, 14:32</p></div>
+                    <div class="full-width"><label>SUBMITTED BY</label><p>Thabo Mokoena (thabo@sasportcommission.org.za)</p></div>
+                </div>
+            </div>
+
+            <div class="card margin-top">
+                <h3 class="card-title">Uploaded Documents</h3>
+                <div class="file-list">
+                    <div class="file-item">
+                        <lightning-icon icon-name="utility:file" size="small"></lightning-icon>
+                        <div>
+                            <strong>SASC_Q2_Performance_Summary_2025.pdf</strong>
+                            <p>4.2 MB</p>
+                        </div>
+                        <button class="action-icon-btn" onclick={handleDownloadFile} data-file="SASC_Q2_Performance_Summary_2025.pdf">
+                            <lightning-icon icon-name="utility:download" size="x-small"></lightning-icon>
+                        </button>
+                    </div>
+                    <div class="file-item">
+                        <lightning-icon icon-name="utility:file" size="small"></lightning-icon>
+                        <div>
+                            <strong>Annexure_A_Target_Metrics.xlsx</strong>
+                            <p>1.8 MB</p>
+                        </div>
+                        <button class="action-icon-btn" onclick={handleDownloadFile} data-file="Annexure_A_Target_Metrics.xlsx">
+                            <lightning-icon icon-name="utility:download" size="x-small"></lightning-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-col">
+            <div class="card">
+                <h3 class="card-title">Review Comments ({commentCount})</h3>
+                <div class="comments-scroll">
+                    <template for:each={comments} for:item="c">
+                        <div key={c.id} class="comment-bubble">
+                            <div class="comment-header"><strong>{c.author}</strong><span>{c.date}</span></div>
+                            <p>{c.text}</p>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="comment-input-box">
+                    <input 
+                        type="text" 
+                        placeholder="Add a comment..." 
+                        class="custom-input" 
+                        value={newCommentText}
+                        oninput={handleCommentInputChange} 
+                        onkeyup={handleCommentKeyUp} />
+                    <button class="purple-btn" onclick={handleAddComment}>Send</button>
+                </div>
+            </div>
+
+            <div class="card margin-top">
+                <h3 class="card-title">Approval Workflow History</h3>
+                <ul class="timeline">
+                    <template for:each={workflowSteps} for:item="step">
+                        <li key={step.id} class={step.className}>
+                            <span class="timeline-dot"></span>
+                            <div>
+                                <strong>{step.title}</strong>
+                                <p>{step.detail}</p>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>

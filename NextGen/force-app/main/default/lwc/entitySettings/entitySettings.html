@@ -1,0 +1,97 @@
+<template>
+    <div class="settings-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Entity Settings & Profile</h1>
+                <p class="page-subtitle">Manage organization details, official representatives, and financial disbursement accounts.</p>
+            </div>
+            <button class="btn-primary" onclick={handleSaveAll}>
+                <lightning-icon icon-name="utility:save" size="x-small" class="btn-icon"></lightning-icon>
+                Save Changes
+            </button>
+        </div>
+
+        <div class="settings-grid">
+            <!-- Left Column: Organization Details -->
+            <div class="card">
+                <div class="card-header">
+                    <lightning-icon icon-name="utility:company" size="small" class="header-icon"></lightning-icon>
+                    <h2 class="card-title">Organization Information</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="field-group full-width">
+                        <label class="field-label">Registered Legal Name</label>
+                        <input type="text" class="form-input" data-field="legalName" value={entityData.legalName} onchange={handleInputChange} />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">CIPC Registration Number</label>
+                        <input type="text" class="form-input" data-field="cipcNumber" value={entityData.cipcNumber} onchange={handleInputChange} />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">SARS Tax Reference Number</label>
+                        <input type="text" class="form-input" data-field="taxNumber" value={entityData.taxNumber} onchange={handleInputChange} />
+                    </div>
+                    <div class="field-group full-width">
+                        <label class="field-label">Physical Address</label>
+                        <input type="text" class="form-input" data-field="address" value={entityData.address} onchange={handleInputChange} />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Key Contacts & Representative -->
+            <div class="card">
+                <div class="card-header">
+                    <lightning-icon icon-name="utility:user" size="small" class="header-icon"></lightning-icon>
+                    <h2 class="card-title">Authorized Representative</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="field-group full-width">
+                        <label class="field-label">Full Name & Surname</label>
+                        <input type="text" class="form-input" data-field="repName" value={entityData.repName} onchange={handleInputChange} />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Designation / Role</label>
+                        <input type="text" class="form-input" data-field="repRole" value={entityData.repRole} onchange={handleInputChange} />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Official Email Address</label>
+                        <input type="email" class="form-input" data-field="repEmail" value={entityData.repEmail} onchange={handleInputChange} />
+                    </div>
+                    <div class="field-group full-width">
+                        <label class="field-label">Contact Telephone Number</label>
+                        <input type="tel" class="form-input" data-field="repPhone" value={entityData.repPhone} onchange={handleInputChange} />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Width Column: Banking & Disbursements -->
+            <div class="card full-span">
+                <div class="card-header">
+                    <lightning-icon icon-name="utility:moneybag" size="small" class="header-icon"></lightning-icon>
+                    <h2 class="card-title">Banking & Grant Disbursement Account</h2>
+                </div>
+                <div class="form-grid three-col">
+                    <div class="field-group">
+                        <label class="field-label">Banking Institution</label>
+                        <select class="form-input" data-field="bankName" onchange={handleInputChange}>
+                            <option value="First National Bank (FNB)">First National Bank (FNB)</option>
+                            <option value="Standard Bank">Standard Bank</option>
+                            <option value="Absa Bank">Absa Bank</option>
+                            <option value="Nedbank">Nedbank</option>
+                            <option value="Capitec Bank">Capitec Bank</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Account Number</label>
+                        <input type="text" class="form-input" data-field="accountNumber" value={entityData.accountNumber} onchange={handleInputChange} />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Branch Code</label>
+                        <input type="text" class="form-input" data-field="branchCode" value={entityData.branchCode} onchange={handleInputChange} />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

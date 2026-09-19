@@ -1,0 +1,44 @@
+<template>
+    <aside class="sidebar">
+        <!-- Brand Header -->
+        <div class="brand-section">
+            <div class="logo-box">
+                <lightning-icon icon-name="utility:shield" size="small" class="brand-icon"></lightning-icon>
+            </div>
+            <div>
+                <h1 class="brand-title">{brandName}</h1>
+                <p class="brand-subtitle">{brandSub}</p>
+                <p class="brand-tag">{personaTag}</p>
+            </div>
+        </div>
+
+        <!-- Dynamic Persona Menu Navigation -->
+        <nav class="nav-menu">
+            <template for:each={menuItems} for:item="item">
+                <a key={item.id} class={item.className} data-id={item.id} onclick={handleSelect}>
+                    <lightning-icon icon-name={item.icon} size="x-small" class="nav-icon"></lightning-icon>
+                    <span>{item.label}</span>
+                </a>
+            </template>
+        </nav>
+
+        <!-- Sidebar Footer with Interactive Persona Switcher -->
+        <div class="sidebar-footer">
+            <div class="persona-switch-box">
+                <span class="switch-label">Demo Role Switch:</span>
+                <div class="switch-btn-group">
+                    <button class={dsacBtnClass} onclick={switchToDsac}>DSAC</button>
+                    <button class={entityBtnClass} onclick={switchToEntity}>Entity</button>
+                </div>
+            </div>
+
+            <div class="user-profile">
+                <div>
+                    <div class="user-name">{userName}</div>
+                    <div class="user-role">{userRoleTitle}</div>
+                </div>
+                <lightning-icon icon-name="utility:logout" size="x-small" class="logout-icon" title="Logout"></lightning-icon>
+            </div>
+        </div>
+    </aside>
+</template>

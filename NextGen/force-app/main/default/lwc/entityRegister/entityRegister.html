@@ -1,0 +1,80 @@
+<template>
+    <div class="page-container">
+        <header class="branding-header">
+            <div class="header-left" onclick={handleGoHome}>
+                <h1 class="brand-title">DSAC</h1>
+                <p class="brand-subtitle">Sport, Arts & Culture<br/>Entity Portal</p>
+            </div>
+            <div class="header-right">
+                <div class="coat-of-arms-stub">
+                    <div class="symbol-circle"></div>
+                    <div class="gov-text">
+                        <span class="gov-title">sport, arts & culture</span>
+                        <span class="gov-dept">Department:<br/>Sport, Arts and Culture<br/><strong>REPUBLIC OF SOUTH AFRICA</strong></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="content-body">
+            <div class="form-card">
+                <div class="card-header">
+                    <h2>Register New Entity</h2>
+                    <p>Register your sports federations, cultural organization, or NPO for compliance reporting.</p>
+                </div>
+
+                <div class="form-grid">
+                    <div class="field-group full-width">
+                        <label class="field-label">Official Entity Name *</label>
+                        <input type="text" class="form-input" placeholder="e.g. Gauteng Tennis Association" value={entityName} onchange={handleInputChange} data-field="entityName" />
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Registration / NPO Number *</label>
+                        <input type="text" class="form-input" placeholder="e.g. 123-456 NPO / CIPC" value={registrationNo} onchange={handleInputChange} data-field="registrationNo" />
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Sector Category *</label>
+                        <select class="form-input select-input" onchange={handleInputChange} data-field="sector">
+                            <option value="sport">Sport & Recreation</option>
+                            <option value="arts">Arts, Culture & Heritage</option>
+                            <option value="lib">Libraries & Archives</option>
+                        </select>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Representative Full Name *</label>
+                        <input type="text" class="form-input" placeholder="First & Last Name" value={repName} onchange={handleInputChange} data-field="repName" />
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Official Email Address *</label>
+                        <input type="email" class="form-input" placeholder="rep@entity.org.za" value={email} onchange={handleInputChange} data-field="email" />
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Password *</label>
+                        <input type="password" class="form-input" value={password} onchange={handleInputChange} data-field="password" />
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Confirm Password *</label>
+                        <input type="password" class="form-input" value={confirmPassword} onchange={handleInputChange} data-field="confirmPassword" />
+                    </div>
+                </div>
+
+                <div class="prompt-row">
+                    <span>Already registered? </span>
+                    <a href="javascript:void(0);" onclick={handleGoLogin} class="link-text">Sign In Here</a>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn-secondary" onclick={handleGoHome}>Cancel</button>
+                    <button class="btn-primary" onclick={handleSubmitRegister}>Complete Registration</button>
+                </div>
+            </div>
+        </main>
+        <footer class="footer-bar"></footer>
+    </div>
+</template>

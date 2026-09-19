@@ -1,0 +1,199 @@
+<template>
+    <div class="chat-wrapper">
+
+        <!-- Floating Chat Button -->
+        <template if:false={isOpen}>
+            <button
+                class="chat-button"
+                onclick={openChat}
+                title="Open DSAC Assistant">
+                💬
+            </button>
+        </template>
+
+        <!-- Chat Window -->
+        <template if:true={isOpen}>
+            <section class="chat-container">
+
+                <!-- Header -->
+                <header class="chat-header">
+
+                    <div class="header-content">
+
+                        <div class="bot-avatar">
+                            DS
+                        </div>
+
+                        <div>
+                            <h2>DSAC Assistant</h2>
+                            <p>Entity Reporting Support</p>
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="close-button"
+                        onclick={closeChat}
+                        title="Close chatbot">
+                        ×
+                    </button>
+
+                </header>
+
+
+                <!-- Messages -->
+                <div class="chat-messages">
+
+                    <template
+                        for:each={messages}
+                        for:item="message">
+
+                        <div
+                            key={message.id}
+                            class={message.messageClass}>
+
+                            <template if:true={message.isBot}>
+                                <div class="message-avatar">
+                                    DS
+                                </div>
+                            </template>
+
+                            <div class="message-content">
+                                <p>{message.text}</p>
+                            </div>
+
+                        </div>
+
+                    </template>
+
+
+                    <!-- Welcome Actions -->
+                    <template if:true={showWelcomeActions}>
+
+                        <div class="quick-actions">
+
+                            <button
+                                onclick={startRegistration}>
+                                Register Entity
+                            </button>
+
+                            <button
+                                onclick={existingAccount}>
+                                I already have an account
+                            </button>
+
+                            <button
+                                onclick={explainRegistration}>
+                                How does registration work?
+                            </button>
+
+                        </div>
+
+                    </template>
+
+
+                    <!-- Entity Form -->
+                    <template if:true={showEntityForm}>
+
+                        <div class="form-card">
+
+                            <h3>Entity Information</h3>
+
+                            <lightning-input
+                                label="Entity Name"
+                                value={entityName}
+                                onchange={handleEntityName}>
+                            </lightning-input>
+
+                            <lightning-input
+                                label="Registration Number"
+                                value={registrationNumber}
+                                onchange={handleRegistrationNumber}>
+                            </lightning-input>
+
+                            <lightning-input
+                                type="email"
+                                label="Contact Email"
+                                value={contactEmail}
+                                onchange={handleContactEmail}>
+                            </lightning-input>
+
+                            <lightning-combobox
+                                label="Province"
+                                value={province}
+                                options={provinceOptions}
+                                onchange={handleProvince}>
+                            </lightning-combobox>
+
+                            <button
+                                class="primary-action"
+                                onclick={submitEntityDetails}>
+                                Continue
+                            </button>
+
+                        </div>
+
+                    </template>
+
+
+                    <!-- Required Documents -->
+                    <template if:true={showDocuments}>
+
+                        <div class="document-card">
+
+                            <h3>Required Documents</h3>
+
+                            <p>
+                                Please upload both documents before
+                                your registration can be completed.
+                            </p>
+
+                            <div class="document-item">
+
+                                <span>
+                                    📄 Constitution / Founding Document
+                                </span>
+
+                                <span class="required">
+                                    Required
+                                </span>
+
+                            </div>
+
+
+                            <div class="document-item">
+
+                                <span>
+                                    📊 Financial Statement
+                                </span>
+
+                                <span class="required">
+                                    Required
+                                </span>
+
+                            </div>
+
+
+                            <button
+                                class="primary-action"
+                                onclick={completeRegistration}>
+                                Continue to Upload
+                            </button>
+
+                        </div>
+
+                    </template>
+
+                </div>
+
+
+                <!-- Footer -->
+                <footer class="chat-footer">
+                    DSAC Reporting Platform
+                </footer>
+
+            </section>
+        </template>
+
+    </div>
+</template>

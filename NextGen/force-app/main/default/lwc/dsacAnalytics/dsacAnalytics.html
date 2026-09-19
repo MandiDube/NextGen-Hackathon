@@ -1,0 +1,90 @@
+<template>
+    <header class="page-header">
+        <div>
+            <h1 class="page-title">Analytics & Intelligence</h1>
+            <p class="page-subtitle">Executive insights and provincial compliance metrics</p>
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn" onclick={handleNotificationClick} title="Bell Notifications">
+                <lightning-icon icon-name="utility:notification" size="small"></lightning-icon>
+            </button>
+            <button class="primary-btn" onclick={handleExportClick}>
+                <lightning-icon icon-name="utility:download" size="x-small"></lightning-icon> 
+                Export Report
+            </button>
+        </div>
+    </header>
+
+    <!-- Interactive Analytics Tab Bar -->
+    <div class="tab-nav">
+        <template for:each={tabList} for:item="tab">
+            <button key={tab.id} class={tab.className} data-id={tab.id} onclick={handleTabClick}>
+                {tab.label}
+            </button>
+        </template>
+    </div>
+
+    <!-- Active Analytics Content View -->
+    <template if:true={isOverviewTab}>
+        <div class="kpi-grid">
+            <div class="card kpi-card">
+                <div class="gauge-box"><span class="gauge-val">78%</span></div>
+                <div>
+                    <label class="kpi-label">COMPLIANCE RATE</label>
+                    <div class="kpi-value">78.4%</div>
+                </div>
+            </div>
+            <div class="card kpi-card">
+                <div>
+                    <label class="kpi-label">ON-TIME SUBMISSIONS</label>
+                    <div class="kpi-value">89% <span class="pill green">+4.2%</span></div>
+                </div>
+            </div>
+            <div class="card kpi-card">
+                <div>
+                    <label class="kpi-label">AT-RISK ENTITIES</label>
+                    <div class="kpi-value warning-text">14 <span class="pill red">-2</span></div>
+                </div>
+            </div>
+            <div class="card kpi-card">
+                <div>
+                    <label class="kpi-label">TOTAL FUNDING REPORTED</label>
+                    <div class="kpi-value">R2.4B</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2col">
+            <div class="card">
+                <h3 class="card-title">Entity Performance</h3>
+                <div class="bar-chart-mock">
+                    <div class="bar-item"><div class="bar" style="height:94%"></div><span>94%</span><label>SA Rugby</label></div>
+                    <div class="bar-item"><div class="bar" style="height:88%"></div><span>88%</span><label>SA Gallery</label></div>
+                    <div class="bar-item"><div class="bar" style="height:81%"></div><span>81%</span><label>Robben Is...</label></div>
+                    <div class="bar-item"><div class="bar" style="height:76%"></div><span>76%</span><label>Boxing SA</label></div>
+                    <div class="bar-item"><div class="bar" style="height:65%"></div><span>65%</span><label>Playhous...</label></div>
+                    <div class="bar-item"><div class="bar" style="height:58%"></div><span>58%</span><label>Arts Council</label></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Provincial Overview</h3>
+                <div class="province-grid">
+                    <div class="prov-card"><span class="arrow up">↑</span><div><strong>Gauteng</strong><p>Comp. 92%</p></div></div>
+                    <div class="prov-card"><span class="arrow up">↑</span><div><strong>Western Cape</strong><p>Comp. 88%</p></div></div>
+                    <div class="prov-card"><span class="arrow up">↑</span><div><strong>KwaZulu-Natal</strong><p>Comp. 81%</p></div></div>
+                    <div class="prov-card"><span class="arrow down">↓</span><div><strong>Free State</strong><p>Comp. 76%</p></div></div>
+                    <div class="prov-card"><span class="arrow up">↑</span><div><strong>Mpumalanga</strong><p>Comp. 74%</p></div></div>
+                    <div class="prov-card"><span class="arrow down">↓</span><div><strong>Eastern Cape</strong><p>Comp. 65%</p></div></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template if:false={isOverviewTab}>
+        <div class="card placeholder-tab">
+            <h3>{activeTabLabel} View</h3>
+            <p>Filtered dataset active for <strong>{activeTabLabel}</strong>. Export format ready for HOD presentation.</p>
+        </div>
+    </template>
+</template>

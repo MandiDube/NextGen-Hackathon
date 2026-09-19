@@ -1,0 +1,630 @@
+<template>
+    <div class="app-container">
+
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- DASHBOARD VIEW -->
+            <template if:true={isDashboard}>
+                <header class="header">
+                    <div>
+                        <h2 class="page-title">Dashboard</h2>
+                        <p class="page-subtitle">Overview of reporting activity and compliance</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="icon-btn">
+                            <lightning-icon icon-name="utility:notification" size="small"></lightning-icon>
+                            <span class="notification-badge"></span>
+                        </button>
+                        <button class="primary-btn" onclick={handleOpenSubmitModal}>+ New Report</button>
+                    </div>
+                </header>
+
+                <section class="kpi-grid">
+                    <div class="kpi-card">
+                        <span class="kpi-title">TOTAL ENTITIES</span>
+                        <div class="kpi-value-container">
+                            <span class="kpi-value">342</span>
+                            <span class="badge badge-green">+12</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <span class="kpi-title">REPORTS SUBMITTED</span>
+                        <div class="kpi-value-container">
+                            <span class="kpi-value">1,287</span>
+                            <span class="badge badge-green">+86</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <span class="kpi-title">COMPLIANCE RATE</span>
+                        <div class="kpi-value-container">
+                            <span class="kpi-value">78%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card border-warning">
+                        <span class="kpi-title">OVERDUE REPORTS</span>
+                        <div class="kpi-value-container">
+                            <span class="kpi-value">23</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="grid-2-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Submission Trends</h3>
+                            <span class="card-subtext">Jul - Dec 2024</span>
+                        </div>
+                        <div class="chart-container">
+                            <svg viewBox="0 0 500 150" class="line-chart">
+                                <polyline fill="none" stroke="#6C5CE7" stroke-width="3" points="20,120 90,105 160,115 230,70 300,75 370,20" />
+                                <circle cx="20" cy="120" r="3" fill="#6C5CE7" />
+                                <circle cx="90" cy="105" r="3" fill="#6C5CE7" />
+                                <circle cx="160" cy="115" r="3" fill="#6C5CE7" />
+                                <circle cx="230" cy="70" r="3" fill="#6C5CE7" />
+                                <circle cx="300" cy="75" r="3" fill="#6C5CE7" />
+                                <circle cx="370" cy="20" r="3" fill="#6C5CE7" />
+                            </svg>
+                            <div class="chart-labels">
+                                <span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Compliance by Province</h3>
+                        <div class="progress-list">
+                            <template for:each={provinceData} for:item="prov">
+                                <div key={prov.code} class="progress-row">
+                                    <span class="prov-code">{prov.code}</span>
+                                    <span class="prov-name">{prov.name}</span>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style={prov.style}></div>
+                                    </div>
+                                    <span class="prov-val">{prov.value}%</span>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="grid-2-1">
+                    <div class="card">
+                        <h3 class="card-title">Recent Reports</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>REPORT TITLE</th>
+                                    <th>ENTITY</th>
+                                    <th>DATE</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={recentReports} for:item="report">
+                                    <tr key={report.id}>
+                                        <td class="font-bold">{report.title}</td>
+                                        <td class="text-muted">{report.entity}</td>
+                                        <td class="text-muted">{report.date}</td>
+                                        <td><span class={report.statusClass}>{report.status}</span></td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Upcoming Deadlines</h3>
+                        <div class="deadline-list">
+                            <template for:each={deadlines} for:item="dl">
+                                <div key={dl.id} class={dl.cardClass}>
+                                    <div>
+                                        <div class="deadline-title">{dl.title}</div>
+                                        <div class="deadline-sub">{dl.sub}</div>
+                                    </div>
+                                    <div class={dl.dateClass}>{dl.date}</div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </section>
+            </template>
+
+            <!-- ENTITIES VIEW -->
+            <template if:true={isEntities}>
+                <header class="header">
+                    <div>
+                        <h2 class="page-title">Entities</h2>
+                        <p class="page-subtitle">Manage registered reporting entities</p>
+                    </div>
+                    <div class="header-actions">
+                        <div class="search-box">
+                            <lightning-icon icon-name="utility:search" size="x-small" class="search-icon"></lightning-icon>
+                            <input type="text" placeholder="Search..." class="search-input" />
+                        </div>
+                        <button class="icon-btn">
+                            <lightning-icon icon-name="utility:notification" size="small"></lightning-icon>
+                            <span class="notification-badge"></span>
+                        </button>
+                        <button class="primary-btn">+ Add Entity</button>
+                    </div>
+                </header>
+
+                <div class="filter-bar">
+                    <div class="tab-group">
+                        <button class="tab-btn active">All (342)</button>
+                        <button class="tab-btn">Public Entities (112)</button>
+                        <button class="tab-btn">NPOs (230)</button>
+                    </div>
+                    <div class="sort-group">
+                        <span>Sort By:</span>
+                        <select class="select-dropdown">
+                            <option>Recently Added</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>ENTITY NAME</th>
+                                <th>TYPE</th>
+                                <th>PROVINCE</th>
+                                <th>STATUS</th>
+                                <th>LAST REPORT</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={entitiesList} for:item="item">
+                                <tr key={item.id}>
+                                    <td class="font-bold">{item.name}</td>
+                                    <td class="text-muted">{item.type}</td>
+                                    <td class="text-muted">{item.province}</td>
+                                    <td><span class={item.statusClass}>{item.status}</span></td>
+                                    <td class="text-muted">{item.lastReport}</td>
+                                    <td>
+                                        <button class="outline-btn" onclick={handleViewProfile} data-id={item.id}>View Profile</button>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination">
+                        <span class="text-muted">Showing 1-8 of 342 entries</span>
+                        <div class="pagination-controls">
+                            <button class="page-btn">Prev</button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- ENTITY PROFILE VIEW -->
+            <template if:true={isEntityProfile}>
+                <header class="header">
+                    <div class="title-with-badge">
+                        <a onclick={showEntities} class="back-link">&larr; Entities</a>
+                        <div class="entity-title-row">
+                            <h2 class="page-title">{selectedEntity.name}</h2>
+                            <span class="pill-badge">{selectedEntity.type}</span>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="primary-btn edit-btn" onclick={handleOpenEditModal}>
+                            <lightning-icon icon-name="utility:edit" size="x-small" class="btn-icon"></lightning-icon>
+                            Edit Entity
+                        </button>
+                    </div>
+                </header>
+
+                <div class="grid-profile">
+                    <!-- Left Column -->
+                    <div class="left-col">
+                        <div class="card">
+                            <h3 class="card-title">Contact Information</h3>
+                            <div class="info-block">
+                                <span class="info-label">ADDRESS</span>
+                                <p class="info-value">{selectedEntity.address}</p>
+                            </div>
+                            <div class="info-block">
+                                <span class="info-label">PHONE NUMBER</span>
+                                <p class="info-value">{selectedEntity.phone}</p>
+                            </div>
+                            <div class="info-block">
+                                <span class="info-label">EMAIL ADDRESS</span>
+                                <p class="info-value link-text">{selectedEntity.email}</p>
+                            </div>
+                            <div class="info-block">
+                                <span class="info-label">CONTACT PERSON</span>
+                                <p class="info-value">{selectedEntity.contactPerson}</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="card-title">Reporting Compliance</h3>
+                            <div class="compliance-metric">
+                                <span class="metric-label">Overall Compliance Rate</span>
+                                <span class="metric-value-green">85%</span>
+                            </div>
+                            <div class="progress-bar-bg flex-bar">
+                                <div class="progress-bar-fill green-fill" style="width: 85%;"></div>
+                            </div>
+                            <div class="compliance-row">
+                                <span class="text-muted">On-Time Submissions</span>
+                                <span class="font-bold">12 / 14</span>
+                            </div>
+                            <div class="compliance-row">
+                                <span class="text-muted">Overdue Reports</span>
+                                <span class="font-bold text-red">2</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="right-col">
+                        <div class="card">
+                            <h3 class="card-title">Submitted Reports</h3>
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>REPORT TITLE</th>
+                                        <th>PERIOD</th>
+                                        <th>SUBMITTED ON</th>
+                                        <th>STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={submittedReports} for:item="rpt">
+                                        <tr key={rpt.id}>
+                                            <td class="font-bold">{rpt.title}</td>
+                                            <td class="text-muted">{rpt.period}</td>
+                                            <td class="text-muted">{rpt.submittedOn}</td>
+                                            <td><span class={rpt.statusClass}>{rpt.status}</span></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="grid-2-col">
+                            <div class="card">
+                                <h3 class="card-title">Upcoming Deadlines</h3>
+                                <div class="deadline-list">
+                                    <div class="deadline-item red">
+                                        <div>
+                                            <div class="deadline-title">Q3 Financial Statement</div>
+                                            <div class="deadline-sub">Due: 15 Jan 2026</div>
+                                        </div>
+                                        <span class="badge-pill badge-urgent">Urgent</span>
+                                    </div>
+                                    <div class="deadline-item amber">
+                                        <div>
+                                            <div class="deadline-title">B-BBEE Compliance Review</div>
+                                            <div class="deadline-sub">Due: 28 Feb 2026</div>
+                                        </div>
+                                        <span class="badge-pill badge-standard">Standard</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <h3 class="card-title">Documents</h3>
+                                <div class="doc-list">
+                                    <div class="doc-item">
+                                        <lightning-icon icon-name="utility:file" size="x-small" class="doc-icon"></lightning-icon>
+                                        <span class="link-text">Constitution_SASC.pdf</span>
+                                    </div>
+                                    <div class="doc-item">
+                                        <lightning-icon icon-name="utility:file" size="x-small" class="doc-icon"></lightning-icon>
+                                        <span class="link-text">Strategic_Plan_2025.pdf</span>
+                                    </div>
+                                    <div class="doc-item">
+                                        <lightning-icon icon-name="utility:file" size="x-small" class="doc-icon"></lightning-icon>
+                                        <span class="link-text">Audit_Report_2024.pdf</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="card-title">Activity History</h3>
+                            <ul class="activity-timeline">
+                                <li class="activity-item">
+                                    <div class="dot"></div>
+                                    <div class="activity-text">Thabo Mokoena uploaded Q2 Performance Summary</div>
+                                    <div class="activity-date">15 Oct 2025</div>
+                                </li>
+                                <li class="activity-item">
+                                    <div class="dot"></div>
+                                    <div class="activity-text">Report 'Q1 Financial Statement' was Approved by Admin</div>
+                                    <div class="activity-date">18 Jul 2025</div>
+                                </li>
+                                <li class="activity-item">
+                                    <div class="dot"></div>
+                                    <div class="activity-text">Entity information updated by SASC Administrator</div>
+                                    <div class="activity-date">10 Jun 2025</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- REPORTS VIEW -->
+            <template if:true={isReports}>
+                <header class="header">
+                    <div>
+                        <h2 class="page-title">Reports</h2>
+                        <p class="page-subtitle">View and manage submitted reports</p>
+                    </div>
+                    <div class="header-actions">
+                        <div class="search-box">
+                            <lightning-icon icon-name="utility:search" size="x-small" class="search-icon"></lightning-icon>
+                            <input type="text" placeholder="Search..." class="search-input" />
+                        </div>
+                        <button class="icon-btn">
+                            <lightning-icon icon-name="utility:notification" size="small"></lightning-icon>
+                            <span class="notification-badge"></span>
+                        </button>
+                        <button class="primary-btn" onclick={handleOpenSubmitModal}>+ Submit Report</button>
+                    </div>
+                </header>
+
+                <div class="card filter-card">
+                    <h3 class="filter-card-title">Filter Submissions</h3>
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label class="filter-label">ENTITY</label>
+                            <select class="select-dropdown full-width-select">
+                                <option>All Entities</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">REPORT TYPE</label>
+                            <select class="select-dropdown full-width-select">
+                                <option>All Types</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">STATUS</label>
+                            <select class="select-dropdown full-width-select">
+                                <option>All Statuses</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">REPORTING PERIOD</label>
+                            <select class="select-dropdown full-width-select">
+                                <option>FY 2024/25</option>
+                            </select>
+                        </div>
+                        <div class="filter-action-cell">
+                            <button class="reset-btn">Reset Filters</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>REPORT TITLE</th>
+                                <th>ENTITY</th>
+                                <th>PERIOD</th>
+                                <th>SUBMISSION DATE</th>
+                                <th>STATUS</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={reportsList} for:item="rpt">
+                                <tr key={rpt.id}>
+                                    <td class="font-bold">{rpt.title}</td>
+                                    <td class="text-muted">{rpt.entity}</td>
+                                    <td class="text-muted">{rpt.period}</td>
+                                    <td class="text-muted">{rpt.date}</td>
+                                    <td><span class={rpt.statusClass}>{rpt.status}</span></td>
+                                    <td>
+                                        <button class="outline-btn" onclick={handleViewReport} data-id={rpt.id}>View</button>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination">
+                        <span class="text-muted">Showing 1-8 of 342 entries</span>
+                        <div class="pagination-controls">
+                            <button class="page-btn">Prev</button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- REPORT DETAILS VIEW -->
+            <template if:true={isReportDetails}>
+                <header class="header">
+                    <div class="title-with-badge">
+                        <div class="entity-title-row">
+                            <h2 class="page-title">{selectedReport.title}</h2>
+                            <span class={selectedReport.statusClass}>{selectedReport.status}</span>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="outline-btn flex-btn">
+                            <lightning-icon icon-name="utility:download" size="x-small" class="btn-icon"></lightning-icon>
+                            Download
+                        </button>
+                        <button class="amber-outline-btn">Request Changes</button>
+                        <button class="approve-btn">Approve Report</button>
+                    </div>
+                </header>
+
+                <div class="grid-2-1">
+                    <!-- Left Column -->
+                    <div class="left-col-stack">
+                        <!-- Submission Information -->
+                        <div class="card">
+                            <h3 class="card-title font-bold">Submission Information</h3>
+                            <div class="info-grid-2x2">
+                                <div class="info-block">
+                                    <span class="info-label">REPORTING ENTITY</span>
+                                    <p class="info-value font-bold">{selectedReport.entity}</p>
+                                </div>
+                                <div class="info-block">
+                                    <span class="info-label">REPORT TYPE</span>
+                                    <p class="info-value font-bold">{selectedReport.type}</p>
+                                </div>
+                                <div class="info-block">
+                                    <span class="info-label">REPORTING PERIOD</span>
+                                    <p class="info-value font-bold">{selectedReport.periodFull}</p>
+                                </div>
+                                <div class="info-block">
+                                    <span class="info-label">SUBMISSION DATE</span>
+                                    <p class="info-value font-bold">{selectedReport.submissionDateFull}</p>
+                                </div>
+                            </div>
+                            <div class="info-block margin-top-md">
+                                <span class="info-label">SUBMITTED BY</span>
+                                <p class="info-value font-bold">{selectedReport.submittedBy}</p>
+                            </div>
+                        </div>
+
+                        <!-- Uploaded Documents -->
+                        <div class="card">
+                            <h3 class="card-title font-bold">Uploaded Documents</h3>
+                            <div class="uploaded-files-list">
+                                <template for:each={selectedReport.documents} for:item="doc">
+                                    <div key={doc.name} class="file-card">
+                                        <div class="file-info">
+                                            <lightning-icon icon-name="utility:file" size="small" class="file-icon"></lightning-icon>
+                                            <div>
+                                                <div class="file-name font-bold">{doc.name}</div>
+                                                <div class="file-size text-muted">{doc.size}</div>
+                                            </div>
+                                        </div>
+                                        <button class="file-download-btn">
+                                            <lightning-icon icon-name="utility:download" size="x-small"></lightning-icon>
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="right-col-stack">
+                        <!-- Review Comments -->
+                        <div class="card">
+                            <h3 class="card-title font-bold">Review Comments</h3>
+                            <div class="comment-box">
+                                <div class="comment-header">
+                                    <span class="comment-author font-bold">DSAC Reviewer 1</span>
+                                    <span class="comment-date text-muted">16 Oct 2025</span>
+                                </div>
+                                <p class="comment-body text-muted">
+                                    Please double-check the development targets on Page 14. They seem to mismatch the Annexure numbers.
+                                </p>
+                            </div>
+                            <div class="comment-input-row">
+                                <input type="text" placeholder="Add a comment..." class="comment-input" />
+                                <button class="send-btn">Send</button>
+                            </div>
+                        </div>
+
+                        <!-- Approval Workflow History -->
+                        <div class="card">
+                            <h3 class="card-title font-bold">Approval Workflow History</h3>
+                            <ul class="workflow-timeline">
+                                <li class="workflow-item completed">
+                                    <div class="workflow-node"></div>
+                                    <div class="workflow-content">
+                                        <div class="workflow-title font-bold">Submitted</div>
+                                        <div class="workflow-sub text-muted">Thabo Mokoena</div>
+                                        <div class="workflow-time text-muted">15 Oct 2025, 14:32</div>
+                                    </div>
+                                </li>
+                                <li class="workflow-item active">
+                                    <div class="workflow-node"></div>
+                                    <div class="workflow-content">
+                                        <div class="workflow-title font-bold">Under Review</div>
+                                        <div class="workflow-sub text-muted">Assigned to Audit Division</div>
+                                        <div class="workflow-time text-muted">15 Oct 2025, 16:00</div>
+                                    </div>
+                                </li>
+                                <li class="workflow-item pending">
+                                    <div class="workflow-node"></div>
+                                    <div class="workflow-content">
+                                        <div class="workflow-title font-bold">Pending Approval</div>
+                                        <div class="workflow-sub text-muted">Director General Sign-off</div>
+                                        <div class="workflow-time text-muted">In Progress</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </main>
+    </div>
+
+    <!-- SUBMIT REPORT MODAL -->
+    <template if:true={isSubmitModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Submit New Report</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="form-grid">
+                        <lightning-input label="Report Title" name="title" value={newReportData.title} onchange={handleReportInputChange} class="full-width"></lightning-input>
+                        <lightning-input label="Entity" name="entity" value={newReportData.entity} onchange={handleReportInputChange}></lightning-input>
+                        <lightning-input label="Period" name="period" value={newReportData.period} onchange={handleReportInputChange}></lightning-input>
+                        <lightning-input label="Submission Date" type="date" name="date" value={newReportData.date} onchange={handleReportInputChange}></lightning-input>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="outline-btn modal-btn" onclick={handleCloseSubmitModal}>Cancel</button>
+                    <button class="primary-btn modal-btn" onclick={handleSaveNewReport}>Submit</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- EDIT ENTITY MODAL -->
+    <template if:true={isEditModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Edit Entity Details</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="form-grid">
+                        <lightning-input label="Entity Name" name="name" value={editFormData.name} onchange={handleInputChange}></lightning-input>
+                        <lightning-input label="Type" name="type" value={editFormData.type} onchange={handleInputChange}></lightning-input>
+                        <lightning-input label="Province" name="province" value={editFormData.province} onchange={handleInputChange}></lightning-input>
+                        <lightning-input label="Contact Person" name="contactPerson" value={editFormData.contactPerson} onchange={handleInputChange}></lightning-input>
+                        <lightning-input label="Phone Number" name="phone" value={editFormData.phone} onchange={handleInputChange}></lightning-input>
+                        <lightning-input label="Email Address" name="email" value={editFormData.email} onchange={handleInputChange}></lightning-input>
+                        <lightning-input label="Address" name="address" value={editFormData.address} class="full-width" onchange={handleInputChange}></lightning-input>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="outline-btn modal-btn" onclick={handleCloseEditModal}>Cancel</button>
+                    <button class="primary-btn modal-btn" onclick={handleSaveEntity}>Save Changes</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
